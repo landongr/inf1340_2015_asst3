@@ -15,6 +15,7 @@ import re
 import datetime
 import json
 
+
 ######################
 ## global constants ##
 ######################
@@ -73,11 +74,15 @@ def decide(input_file, watchlist_file, countries_file):
 
 def valid_passport_format(passport_number):
     """
-    Checks whether a pasport number is five sets of five alpha-number characters separated by dashes
+    Checks whether a passport number is five sets of five alpha-number characters separated by dashes
     :param passport_number: alpha-numeric string
     :return: Boolean; True if the format is valid, False otherwise
     """
     return False
+
+passport = []  # placeholder
+passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}")  # check for underscore, as part of "w" but not alphanumeric?
+passport_match = passport_format_regex.search(passport)
 
 
 def valid_visa_format(visa_code):
@@ -88,6 +93,10 @@ def valid_visa_format(visa_code):
 
     """
 
+visa = []  # placeholder
+visa_format_regex = re.compile(r"(\w{5}){2}")  # check for underscore, as part of "w" but not alphanumeric?
+visa_match = visa_format_regex.search(visa)
+
 
 def valid_date_format(date_string):
     """
@@ -97,3 +106,7 @@ def valid_date_format(date_string):
     """
 
     return False
+
+date_format = []  # placeholder
+date_format_regex = re.compile(r"\d{4}-\d{2}-\d{2}")  # check for underscore, as part of "w" but not alphanumeric?
+date_match = date_format_regex.search(date_format)

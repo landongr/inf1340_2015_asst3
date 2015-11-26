@@ -22,6 +22,7 @@ R2 = [["Department", "Head"],
       ["production", "Mori"],
       ["sales", "Brown"]]
 
+
 def filter_employees(row):
     """
     Check if employee represented by row
@@ -42,6 +43,7 @@ TABLE = [["number 1", "number 2", "number 3"],
          [4,5,6],
          [7,8,9],
          [6,1,2]]
+
 
 def remove_duplicates(l):
     """
@@ -65,6 +67,7 @@ class UnknownAttributeException(Exception):
     that does not contain the named attribute
     """
     pass
+
 
 def fun(table):
     table2 = [] + table[0]
@@ -102,7 +105,6 @@ def selection(t, f):
             # If they return True they are appended to a new table
             new_table.append(row)
     return new_table
-
 
 
 selection(EMPLOYEES, filter_employees)
@@ -148,7 +150,6 @@ def projection(t, r):
         return t
 
 
-
 def cross_product(t1, t2):
     """
     Return the cross-product of tables t1 and t2.
@@ -176,7 +177,6 @@ def cross_product(t1, t2):
     # Inserts the Schema headings back at the top of the table
     new2_table.insert(0,new_table)
     return new2_table
-
 
 
 print cross_product(R1, R2)
