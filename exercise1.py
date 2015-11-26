@@ -5,15 +5,43 @@
 This module performs table operations on database tables
 implemented as lists of lists. """
 
-__author__ = 'Susan Sim'
-__email__ = "ses@drsusansim.org"
-__copyright__ = "2015 Susan Sim"
-__license__ = "MIT License"
+__author__ = 'Graham Landon'
+
+EMPLOYEES = [["Surname", "FirstName", "Age", "Salary"],
+             ["Smith", "Mary", 25, 2000],
+             ["Black", "Lucy", 40, 3000],
+             ["Verdi", "Nico", 36, 4500],
+             ["Smith", "Mark", 40, 3900]]
+
+R1 = [["Employee", "Department"],
+      ["Smith", "sales"],
+      ["Black", "production"],
+      ["White", "production"]]
+
+R2 = [["Department", "Head"],
+      ["production", "Mori"],
+      ["sales", "Brown"]]
+
+def filter_employees(row):
+    """
+    Check if employee represented by row
+    is AT LEAST 30 years old and makes
+    MORE THAN 3500.
+    :param row: A List in the format:
+        [{Surname}, {FirstName}, {Age}, {Salary}]
+    :return: True if the row satisfies the condition.
+    """
+    return row[-2] >= 30 and row[-1] > 3500
 
 
 #####################
 # HELPER FUNCTIONS ##
 #####################
+
+TABLE = [["number 1", "number 2", "number 3"],
+         [4,5,6],
+         [7,8,9],
+         [6,1,2]]
 
 def remove_duplicates(l):
     """
@@ -38,8 +66,19 @@ class UnknownAttributeException(Exception):
     """
     pass
 
+def fun(table):
+    table2 = [] + table[0]
+    count = 1
+    while count < len(table) - 1:
+        if table[count] > table[-1]:
+            table2.append(table[-1])
+        count += 1
+    else:
+        print table2
+
 
 def selection(t, f):
+    new_table = []
     """
     Perform select operation on table t that satisfy condition f.
 
@@ -52,11 +91,19 @@ def selection(t, f):
     [["A", "B", "C"], [4, 5, 6]]
 
     """
+    for row in t:
+        if f(row) is True:
+            new_table.append(row)
+    return new_table
 
-    return []
+
+
+selection(EMPLOYEES, filter_employees)
 
 
 def projection(t, r):
+    new_list = []
+
     """
     Perform projection operation on table t
     using the attributes subset r.
@@ -67,8 +114,22 @@ def projection(t, r):
     [["A", "C"], [1, 3], [4, 6]]
 
     """
+    for item in t[0]:
+        if item not in r:
+            x = (t[0].index(item))
+            new_list.append(x)
+    for i in new_list:
+        for target in t:
+            target[i] = "Marked_for_kill"
+    for lists in t:
+        for targets in range(lists.count("Marked_for_kill")):
+            lists.remove("Marked_for_kill")
+    for lists in t:
+        if len(lists) == 0:
+            raise UnknownAttributeException
+    else:
+        return t
 
-    return []
 
 
 def cross_product(t1, t2):
@@ -82,6 +143,17 @@ def cross_product(t1, t2):
 
 
     """
+    new_table = t1[0] + t2[0]
+    new2_table = []
+    del t1[0]
+    del t2[0]
+    for list1 in t1:
+        for list2 in t2:
+            t3 = list1 + list2
+            new2_table.append(t3)
+    new2_table.insert(0,new_table)
+    return new2_table
 
-    return []
 
+
+print cross_product(R1, R2)
