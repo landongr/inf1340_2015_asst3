@@ -35,6 +35,22 @@ containing the following keys:
 COUNTRIES = None
 
 
+with open("test_applicant.json", "r") as application_reader:
+    application_contents = application_reader.read()
+
+with open("watchlist.json", "r") as watchlist_reader:
+    watchlist_contents = watchlist_reader.read()
+
+with open("countries.json", "r") as country_reader:
+    country_contents = country_reader.read()
+
+
+### check for required fields###
+
+#def record_check():
+#    for row in application_contents:
+
+
 #####################
 # HELPER FUNCTIONS ##
 #####################
@@ -54,7 +70,7 @@ def is_more_than_x_years_ago(x, date_string):
     return (date - x_years_ago).total_seconds() < 0
 
 
-def decide(input_file, watchlist_file, countries_file):
+def decide(test_applicant, watchlist, countries):
     """
     Decides whether a traveller's entry into Kanadia should be accepted
 
@@ -78,11 +94,12 @@ def valid_passport_format(passport_number):
     :param passport_number: alpha-numeric string
     :return: Boolean; True if the format is valid, False otherwise
     """
-    return False
 
 passport = []  # placeholder
 passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}")  # check for underscore, as part of "w" but not alphanumeric?
 passport_match = passport_format_regex.search(passport)
+#if passport_match is None:
+#   return False
 
 
 def valid_visa_format(visa_code):
@@ -96,6 +113,8 @@ def valid_visa_format(visa_code):
 visa = []  # placeholder
 visa_format_regex = re.compile(r"(\w{5}){2}")  # check for underscore, as part of "w" but not alphanumeric?
 visa_match = visa_format_regex.search(visa)
+#if visa_match is None:
+#   return False
 
 
 def valid_date_format(date_string):
@@ -105,8 +124,8 @@ def valid_date_format(date_string):
     :return: Boolean True if the format is valid, False otherwise
     """
 
-    return False
-
 date_format = []  # placeholder
 date_format_regex = re.compile(r"\d{4}-\d{2}-\d{2}")  # check for underscore, as part of "w" but not alphanumeric?
 date_match = date_format_regex.search(date_format)
+#if date_match is None:
+#   return False
