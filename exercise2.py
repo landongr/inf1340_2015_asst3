@@ -34,7 +34,7 @@ containing the following keys:
 COUNTRIES = None
 
 
-with open("test_applicant.json", "r") as application_reader:
+with open("test_returning_citizen.json", "r") as application_reader:
     application_contents = application_reader.read()
 
 with open("countries.json", "r") as country_reader:
@@ -45,6 +45,22 @@ with open("countries.json", "r") as country_reader:
 
 #def record_check():
 #    for row in application_contents:
+
+
+def decide(test_applicant, countries):
+    """
+    Decides whether a traveller's entry into Kanadia should be accepted
+
+    :param input_file: The name of a JSON formatted file that contains
+        cases to decide
+    :param countries_file: The name of a JSON formatted file that contains
+        country data, such as whether an entry or transit visa is required,
+        and whether there is currently a medical advisory
+    :return: List of strings. Possible values of strings are:
+        "Accept", "Reject", and "Quarantine"
+    """
+
+    return ["Reject"]
 
 
 #####################
@@ -66,22 +82,6 @@ def is_more_than_x_years_ago(x, date_string):
     return (date - x_years_ago).total_seconds() < 0
 
 
-def decide(test_applicant, countries):
-    """
-    Decides whether a traveller's entry into Kanadia should be accepted
-
-    :param input_file: The name of a JSON formatted file that contains
-        cases to decide
-    :param countries_file: The name of a JSON formatted file that contains
-        country data, such as whether an entry or transit visa is required,
-        and whether there is currently a medical advisory
-    :return: List of strings. Possible values of strings are:
-        "Accept", "Reject", and "Quarantine"
-    """
-
-    return ["Reject"]
-
-
 def valid_passport_format(passport_number):
     """
     Checks whether a passport number is five sets of five alpha-number characters separated by dashes
@@ -90,7 +90,7 @@ def valid_passport_format(passport_number):
     """
 
 passport = []  # placeholder
-passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}")  # check for underscore, as part of "w" but not alphanumeric?
+passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}")
 passport_match = passport_format_regex.search(passport)
 #if passport_match is None:
 #   return False
@@ -105,7 +105,7 @@ def valid_visa_format(visa_code):
     """
 
 visa = []  # placeholder
-visa_format_regex = re.compile(r"(\w{5}){2}")  # check for underscore, as part of "w" but not alphanumeric?
+visa_format_regex = re.compile(r"(\w{5}){2}")
 visa_match = visa_format_regex.search(visa)
 #if visa_match is None:
 #   return False
@@ -119,7 +119,7 @@ def valid_date_format(date_string):
     """
 
 date_format = []  # placeholder
-date_format_regex = re.compile(r"\d{4}-\d{2}-\d{2}")  # check for underscore, as part of "w" but not alphanumeric?
+date_format_regex = re.compile(r"\d{4}-\d{2}-\d{2}")
 date_match = date_format_regex.search(date_format)
 #if date_match is None:
 #   return False
