@@ -7,7 +7,8 @@ Computer-based immigration office for Kanadia
 """
 
 __author__ = 'Graham Landon'
-
+__author__ = 'Erin Canning'
+__author__ = 'Brady Williamson'
 
 import re
 import datetime
