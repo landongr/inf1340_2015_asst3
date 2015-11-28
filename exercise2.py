@@ -81,6 +81,7 @@ def is_more_than_x_years_ago(x, date_string):
 
     return (date - x_years_ago).total_seconds() < 0
 
+print is_more_than_x_years_ago(3,"2012-06-13")
 
 def valid_passport_format(passport_number):
     """
@@ -89,12 +90,11 @@ def valid_passport_format(passport_number):
     :return: Boolean; True if the format is valid, False otherwise
     """
 
-passport = []  # placeholder
-passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}")
-passport_match = passport_format_regex.search(passport)
-#if passport_match is None:
-#   return False
-
+    passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}")
+    passport_match = passport_format_regex.search(passport_number)
+    if passport_match is None:
+        return False
+valid_passport_format("JMZ0S-89IA9-OTCLY-MQILJ-P7CTY")
 
 def valid_visa_format(visa_code):
     """
@@ -104,11 +104,12 @@ def valid_visa_format(visa_code):
 
     """
 
-visa = []  # placeholder
-visa_format_regex = re.compile(r"(\w{5}){2}")
-visa_match = visa_format_regex.search(visa)
-#if visa_match is None:
-#   return False
+    visa_format_regex = re.compile(r"\w{5}-\w{5}")
+    visa_match = visa_format_regex.search(visa_code)
+    if visa_match is None:
+        return False
+    else:
+        return True
 
 
 def valid_date_format(date_string):
@@ -118,8 +119,9 @@ def valid_date_format(date_string):
     :return: Boolean True if the format is valid, False otherwise
     """
 
-date_format = []  # placeholder
-date_format_regex = re.compile(r"\d{4}-\d{2}-\d{2}")
-date_match = date_format_regex.search(date_format)
-#if date_match is None:
-#   return False
+    date_format_regex = re.compile(r"\d{4}-\d{2}-\d{2}")
+    date_match = date_format_regex.search(date_string)
+    if date_match is None:
+        return False
+    else:
+        return True
