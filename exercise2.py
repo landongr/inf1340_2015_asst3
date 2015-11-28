@@ -66,9 +66,9 @@ def decide(test_applicant, countries):
 #####################
 # HELPER FUNCTIONS ##
 #####################
-def is_more_than_x_years_ago(x, date_string):
+def is_more_than_2_years_ago(date_string):
     """
-    Check if date is less than x years ago.
+    Check if date is less than 2 years ago.
 
     :param x: int representing years
     :param date_string: a date string in format "YYYY-mm-dd"
@@ -76,12 +76,11 @@ def is_more_than_x_years_ago(x, date_string):
     """
 
     now = datetime.datetime.now()
-    x_years_ago = now.replace(year=now.year - x)
+    two_years_ago = now.replace(year=now.year - 2)
     date = datetime.datetime.strptime(date_string, '%Y-%m-%d')
 
-    return (date - x_years_ago).total_seconds() < 0
+    return (date - two_years_ago).total_seconds() > 0
 
-print is_more_than_x_years_ago(3,"2012-06-13")
 
 def valid_passport_format(passport_number):
     """
@@ -125,3 +124,44 @@ def valid_date_format(date_string):
         return False
     else:
         return True
+
+def location_check(country):
+    json_data = open("countries.json").read()
+    contents = json.loads(json_data)
+    for key in contents:
+        if country == "KAN":
+            return True
+        elif country == key:
+            return True
+    else:
+        return False
+
+def kan_check(home_country):
+    if home_country == "KAN":
+        return True
+    else:
+        False
+
+
+def check_reason(reason):
+    if reason == "visit":
+        check_visit_visa_req(visa_req)
+        if check_visit_visa_req(via_req) == True:
+            if is_more_than_2_years_ago(date_string) == True:
+                return True
+            else:
+                return False
+        else:
+            return True
+    elif reason == "returning":
+        return True
+    else:
+        return False
+
+def check_visit_visa_req(visa_req):
+    if visa_req == "1":
+        return True
+    else:
+        return False
+
+
