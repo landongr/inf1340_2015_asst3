@@ -22,6 +22,17 @@ EMPLOYEES = [["Surname", "FirstName", "Age", "Salary"],
              ["Verdi", "Nico", 36, 4500],
              ["Smith", "Mark", 40, 3900]]
 
+CARS = [["Make", "Color", "Year", "Works(y/n)"],
+        ["Toyota","Yellow", 1989, "y"],
+        ["Honda", "Orange", 2011, "n"],
+        ["Dodge", "Purple", 2000, "y"],
+        ["Fiat", "Polka dot", 1999, "y"]]
+
+TRUCKS = [["Make", "Color", "Year", "Works(y/n)"],
+          ["Toyota","Yellow", 1989, "y"],
+          ["Honda", "Red", 1998, "n"],
+          ["Dodge", "Purple", 2000, "y"]]
+
 R1 = [["Employee", "Department"],
       ["Smith", "sales"],
       ["Black", "production"],
@@ -56,6 +67,7 @@ def filter_employees(row):
     :return: True if the row satisfies the condition.
     """
     return row[-2] >= 30 and row[-1] > 3500
+
 
 
 ###################
@@ -102,3 +114,26 @@ def test_cross_product():
               ["White", "production", "sales", "Brown"]]
 
     assert is_equal(result, cross_product(R1, R2))
+
+#################
+##Student Tests##
+#################
+
+def test_projection1():
+
+    # Test the projection function
+
+    result = [['Make', 'Year'],
+              ['Toyota', 1989],
+              ['Honda', 2011],
+              ['Dodge', 2000],
+              ['Fiat', 1999]]
+
+    assert is_equal(result, projection(CARS,["Make", "Year"]))
+
+def test_cross_product1():
+    #BUGGY NOT WORKING
+    result = [['Make', 'Color', 'Year', 'Works(y/n)', 'Make', 'Color', 'Year', 'Works(y/n)'], ['Toyota', 'Yellow', 1989, 'y', 'Toyota', 'Yellow', 1989, 'y'], ['Toyota', 'Yellow', 1989, 'y', 'Honda', 'Red', 1998, 'n'], ['Toyota', 'Yellow', 1989, 'y', 'Dodge', 'Purple', 2000, 'y'], ['Honda', 'Orange', 2011, 'n', 'Toyota', 'Yellow', 1989, 'y'], ['Honda', 'Orange', 2011, 'n', 'Honda', 'Red', 1998, 'n'], ['Honda', 'Orange', 2011, 'n', 'Dodge', 'Purple', 2000, 'y'], ['Dodge', 'Purple', 2000, 'y', 'Toyota', 'Yellow', 1989, 'y'], ['Dodge', 'Purple', 2000, 'y', 'Honda', 'Red', 1998, 'n'], ['Dodge', 'Purple', 2000, 'y', 'Dodge', 'Purple', 2000, 'y'], ['Fiat', 'Polka dot', 1999, 'y', 'Toyota', 'Yellow', 1989, 'y'], ['Fiat', 'Polka dot', 1999, 'y', 'Honda', 'Red', 1998, 'n'], ['Fiat', 'Polka dot', 1999, 'y', 'Dodge', 'Purple', 2000, 'y']]
+
+    assert is_equal(result, cross_product(CARS, TRUCKS))
+

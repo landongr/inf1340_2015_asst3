@@ -179,4 +179,17 @@ def cross_product(t1, t2):
     return new2_table
 
 
-print cross_product(R1, R2)
+
+CARS = [["Make", "Color", "Year", "Works(y/n)"],
+        ["Toyota","Yellow", 1989, "y"],
+        ["Honda", "Orange", 2011, "n"],
+        ["Dodge", "Purple", 2000, "y"],
+        ["Fiat", "Polka dot", 1999, "y"]]
+
+TRUCKS = [["Make", "Color", "Year", "Works(y/n)"],
+          ["Toyota","Yellow", 1989, "y"],
+          ["Honda", "Red", 1998, "n"],
+          ["Dodge", "Purple", 2000, "y"]]
+
+#print projection(CARS,["Make","Year"])
+print cross_product(CARS, TRUCKS)
