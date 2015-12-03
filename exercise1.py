@@ -85,7 +85,6 @@ def fun(table):
 
 
 def selection(t, f):
-    new_table = []
     """
     Perform select operation on table t that satisfy condition f.
 
@@ -98,6 +97,7 @@ def selection(t, f):
     [["A", "B", "C"], [4, 5, 6]]
 
     """
+    new_table = []
     # iterate though rows of the table
     for row in t:
         # checks which rows return True after being run through the function
@@ -111,7 +111,6 @@ selection(EMPLOYEES, filter_employees)
 
 
 def projection(t, r):
-    new_list = []
 
     """
     Perform projection operation on table t
@@ -123,6 +122,8 @@ def projection(t, r):
     [["A", "C"], [1, 3], [4, 6]]
 
     """
+
+    new_list = []
     # iterate though the headings of the schema
     for item in t[0]:
         # checks if any headings match the attributes in subset r

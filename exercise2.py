@@ -33,20 +33,6 @@ containing the following keys:
 '''
 COUNTRIES = None
 
-
-with open("test_returning_citizen.json", "r") as application_reader:
-    application_contents = application_reader.read()
-
-with open("countries.json", "r") as country_reader:
-    country_contents = country_reader.read()
-
-
-### check for required fields###
-
-#def record_check():
-#    for row in application_contents:
-
-
 def decide(test_applicant, countries):
     """
     Decides whether a traveller's entry into Kanadia should be accepted
@@ -60,7 +46,69 @@ def decide(test_applicant, countries):
         "Accept", "Reject", and "Quarantine"
     """
 
-    return ["Reject"]
+
+    # for person in test_applicant:
+    #     for item in person:
+    #         if item == "":
+    #             return ["Reject"]
+    #         for things in item:
+    #             if things == "":
+    #                 return ["Reject"]
+    visa_code = ""
+    date_string = ""
+    advisory3 = ""
+    country = ""
+    country1 = test_applicant["home"]["country"]
+    country2 = test_applicant["from"]["country"]
+    country3 = ""
+    if "via" in test_applicant:
+        country3 = test_applicant["via"]["country"]
+        advisory3 = countries[country3]["medical_advisory"]
+    if country1 != "KAN":
+        advisory = countries[country1]["medical_advisory"]
+    advisory2 = countries[country2]["medical_advisory"]
+    passport_number = test_applicant["passport"]
+    if "visa" in test_applicant:
+        date_string = test_applicant["visa"]["date"]
+        visa_code = test_applicant["visa"]["code"]
+    home_country = test_applicant["home"]["country"]
+    if "via" in test_applicant:
+        country = test_applicant["via"]["country"]
+    reason = test_applicant["entry_reason"]
+
+    #Validity Checks
+    valid_passport_format(passport_number)
+    if valid_passport_format(passport_number) == False:
+        return ["Reject"]
+    #Buggy
+    if "visa" in test_applicant:
+        valid_visa_format(visa_code)
+        if valid_visa_format(visa_code) == False:
+            return ["Reject"]
+        valid_date_format(date_string)
+        if valid_date_format(date_string) == False:
+            return ["Reject"]
+    kan_check(home_country)
+    if kan_check(home_country) == True:
+        return ["Accept"]
+        exit
+    check_medical_advise(advisory, advisory2, advisory3)
+    if check_medical_advise(advisory, advisory2,advisory3) == False:
+        return ["Quarantine"]
+        exit
+    if "via" in test_applicant:
+        location_check(country)
+        if location_check(country) == False:
+            return ["Reject"]
+        check_reason(reason,test_applicant, countries)
+        if check_reason(reason,test_applicant, countries)== True:
+            return ["Accept"]
+        else:
+            return ["False"]
+    else:
+        return "Accept"
+
+
 
 
 #####################
@@ -88,12 +136,12 @@ def valid_passport_format(passport_number):
     :param passport_number: alpha-numeric string
     :return: Boolean; True if the format is valid, False otherwise
     """
-
+    #THIS IS BUGGY
     passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}")
     passport_match = passport_format_regex.search(passport_number)
     if passport_match is None:
         return False
-valid_passport_format("JMZ0S-89IA9-OTCLY-MQILJ-P7CTY")
+#valid_passport_format("JMZ0S-89IA9-OTCLY-MQILJ-P7CTY")
 
 def valid_visa_format(visa_code):
     """
@@ -125,16 +173,17 @@ def valid_date_format(date_string):
     else:
         return True
 
-def location_check(country):
+def location_check(country1):
     json_data = open("countries.json").read()
     contents = json.loads(json_data)
     for key in contents:
-        if country == "KAN":
+        if country1 == "KAN":
             return True
-        elif country == key:
+        elif country1 == key:
             return True
     else:
         return False
+
 
 def kan_check(home_country):
     if home_country == "KAN":
@@ -143,25 +192,38 @@ def kan_check(home_country):
         False
 
 
-def check_reason(reason):
+def check_reason(reason,test_applicant, countries):
+    date_string = test_applicant["visa"]["date"]
     if reason == "visit":
-        check_visit_visa_req(visa_req)
-        if check_visit_visa_req(via_req) == True:
+        country = test_applicant["home"]["country"]
+        if countries[country]["visitor_visa_required"] == "0":
+            return True
+        else:
             if is_more_than_2_years_ago(date_string) == True:
                 return True
             else:
                 return False
-        else:
-            return True
     elif reason == "returning":
         return True
     else:
         return False
 
-def check_visit_visa_req(visa_req):
-    if visa_req == "1":
-        return True
-    else:
+def check_medical_advise(advisory, advisory2, advisory3):
+    if advisory != "":
         return False
+    elif advisory2 != "":
+        return False
+    elif advisory3 != "":
+        return False
+    else:
+        return True
 
+with open("JSONtest.json","r") as json_reader:
+    applicant = json.load(json_reader)
+with open("countries.json","r") as country_reader:
+    ctry = json.load(country_reader)
 
+#app = json.loads("JSONtest.json")
+#cry = json.loads("countries.json")
+
+print decide(applicant, ctry)
