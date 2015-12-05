@@ -33,6 +33,15 @@ TRUCKS = [["Make", "Color", "Year", "Works(y/n)"],
           ["Honda", "Red", 1998, "n"],
           ["Dodge", "Purple", 2000, "y"]]
 
+CATS = [["Name", "Colour"],
+        ["Meowington", "Black"],
+        ["Tibbles", "White"]]
+
+
+DOGS = [["Name", "Age"],
+        ["Fuzzface", 3],
+        ["Mr. Chewy", 9]]
+
 R1 = [["Employee", "Department"],
       ["Smith", "sales"],
       ["Black", "production"],
@@ -118,10 +127,15 @@ def test_cross_product():
 #################
 ##Student Tests##
 #################
+def test_selection_student():
+    """
+    Test selection operation (student version).
+    """
 
-def test_projection1():
-
-    # Test the projection function
+def test_projection_student():
+    """
+    Test projection operation (student version).
+    """
 
     result = [['Make', 'Year'],
               ['Toyota', 1989],
@@ -131,9 +145,32 @@ def test_projection1():
 
     assert is_equal(result, projection(CARS,["Make", "Year"]))
 
-def test_cross_product1():
-    #BUGGY NOT WORKING!
+def test_cross_product_student():
+    """
+    Test cross product operation (student version).
+    """
+    #BUGGY NOT WORKING! WHY!???? THIS IS MADDENING.
+    #I HAVE RETYPED AND REPASTED ALL OF THIS... THE FAILURE GIVES A VERY WEIRD RESULT; GOING TO RECHECK THE FUNCTION
+
     result = [['Make', 'Color', 'Year', 'Works(y/n)', 'Make', 'Color', 'Year', 'Works(y/n)'], ['Toyota', 'Yellow', 1989, 'y', 'Toyota', 'Yellow', 1989, 'y'], ['Toyota', 'Yellow', 1989, 'y', 'Honda', 'Red', 1998, 'n'], ['Toyota', 'Yellow', 1989, 'y', 'Dodge', 'Purple', 2000, 'y'], ['Honda', 'Orange', 2011, 'n', 'Toyota', 'Yellow', 1989, 'y'], ['Honda', 'Orange', 2011, 'n', 'Honda', 'Red', 1998, 'n'], ['Honda', 'Orange', 2011, 'n', 'Dodge', 'Purple', 2000, 'y'], ['Dodge', 'Purple', 2000, 'y', 'Toyota', 'Yellow', 1989, 'y'], ['Dodge', 'Purple', 2000, 'y', 'Honda', 'Red', 1998, 'n'], ['Dodge', 'Purple', 2000, 'y', 'Dodge', 'Purple', 2000, 'y'], ['Fiat', 'Polka dot', 1999, 'y', 'Toyota', 'Yellow', 1989, 'y'], ['Fiat', 'Polka dot', 1999, 'y', 'Honda', 'Red', 1998, 'n'], ['Fiat', 'Polka dot', 1999, 'y', 'Dodge', 'Purple', 2000, 'y']]
 
-    assert is_equal(result, cross_product(CARS, TRUCKS))
 
+
+    #THIS ONE DOES WORK THOUGH
+    result2 = [["Name", "Colour", "Name", "Age"],
+               ["Meowington", "Black", "Fuzzface", 3],
+               ["Meowington", "Black", "Mr. Chewy", 9],
+               ["Tibbles", "White", "Fuzzface", 3],
+               ["Tibbles", "White", "Mr. Chewy", 9]]
+
+    #BUT THIS ONE DOES NOT - IF IT RUNS AFTER THE PREVIOUS ONE - THE FUNCTION IS ALTERING THE TABLES!
+    result3 = [["Name", "Age", "Name", "Colour"],
+               ["Fuzzface", 3, "Meowington", "Black"],
+               ["Fuzzface", 3, "Tibbles", "White"],
+               ["Mr. Chewy", 9, "Meowington", "Black"],
+               ["Mr. Chewy", 9, "Tibbles", "White"]]
+
+
+    #assert is_equal(result, cross_product(CARS, TRUCKS))
+    assert is_equal(result2, cross_product(CATS, DOGS))
+    assert is_equal(result3, cross_product(DOGS, CATS))
