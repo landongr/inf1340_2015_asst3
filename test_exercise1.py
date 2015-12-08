@@ -6,8 +6,9 @@ Test module for exercise3.py
 
 """
 
-__author__ = "Graham Landon"
-
+__author__ = 'Graham Landon'
+__author__ = 'Erin Canning'
+__author__ = 'Brady Williamson'
 
 from exercise1 import selection, projection, cross_product, copy
 

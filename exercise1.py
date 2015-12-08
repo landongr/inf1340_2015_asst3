@@ -6,6 +6,8 @@ This module performs table operations on database tables
 implemented as lists of lists. """
 
 __author__ = 'Graham Landon'
+__author__ = 'Erin Canning'
+__author__ = 'Brady Williamson'
 
 EMPLOYEES = [["Surname", "FirstName", "Age", "Salary"],
              ["Smith", "Mary", 25, 2000],
@@ -192,17 +194,3 @@ TRUCKS = [["Make", "Color", "Year", "Works(y/n)"],
           ["Toyota","Yellow", 1989, "y"],
           ["Honda", "Red", 1998, "n"],
           ["Dodge", "Purple", 2000, "y"]]
-
-#print projection(CARS,["Make","Year"])
-
-
-
-print cross_product(CARS, TRUCKS)
-print projection(CARS,["Make", "Year"])
-print cross_product(CARS, TRUCKS)
-CARS = [["Make", "Color", "Year", "Works(y/n)"],
-        ["Toyota","Yellow", 1989, "y"],
-        ["Honda", "Orange", 2011, "n"],
-        ["Dodge", "Purple", 2000, "y"],
-        ["Fiat", "Polka dot", 1999, "y"]]
-print CARS
