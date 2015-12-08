@@ -22,6 +22,7 @@ R2 = [["Department", "Head"],
       ["production", "Mori"],
       ["sales", "Brown"]]
 
+import copy
 
 def filter_employees(row):
     """
@@ -110,7 +111,7 @@ def selection(t, f):
 selection(EMPLOYEES, filter_employees)
 
 
-def projection(t, r):
+def projection(q, r):
 
     """
     Perform projection operation on table t
@@ -122,6 +123,8 @@ def projection(t, r):
     [["A", "C"], [1, 3], [4, 6]]
 
     """
+    t = []
+    t = copy.deepcopy(q)
 
     new_list = []
     # iterate though the headings of the schema
@@ -166,11 +169,9 @@ def cross_product(t1, t2):
     new_table = t1[0] + t2[0]
     new2_table = []
     # Removes the Schema headings from the 2 tables
-    del t1[0]
-    del t2[0]
     # Iterates though the lists in both tables
-    for list1 in t1:
-        for list2 in t2:
+    for list1 in t1[1:]:
+        for list2 in t2[1:]:
             # Combines the lists for each table (excluding schemas that have been removed)
             t3 = list1 + list2
             # Appends combined tables to a new list, this stops the lists from overwriting themselves
@@ -193,4 +194,15 @@ TRUCKS = [["Make", "Color", "Year", "Works(y/n)"],
           ["Dodge", "Purple", 2000, "y"]]
 
 #print projection(CARS,["Make","Year"])
+
+
+
 print cross_product(CARS, TRUCKS)
+print projection(CARS,["Make", "Year"])
+print cross_product(CARS, TRUCKS)
+CARS = [["Make", "Color", "Year", "Works(y/n)"],
+        ["Toyota","Yellow", 1989, "y"],
+        ["Honda", "Orange", 2011, "n"],
+        ["Dodge", "Purple", 2000, "y"],
+        ["Fiat", "Polka dot", 1999, "y"]]
+print CARS
