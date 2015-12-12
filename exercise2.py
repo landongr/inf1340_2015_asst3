@@ -33,6 +33,7 @@ containing the following keys:
 '''
 COUNTRIES = None
 
+
 def decide(test_applicant, countries):
     """
     Decides whether a traveller's entry into Kanadia should be accepted, rejected, or if they should be quarantined.
@@ -154,25 +155,11 @@ def decide(test_applicant, countries):
     #I think the second thing we need to do is check that no info on entry record is missing
         #Might be better as a function? but how? can't pass all these things to it...
     #Check that no required fields on the entry record are blank.
-    if first_name == "":
-        return ["Reject"]
-    if last_name == "":
-        return ["Reject"]
-    if birth_date == "":
-        return ["Reject"]
-    if country1 == "":
-        return ["Reject"]
-    if home_city == "":
-        return ["Reject"]
-    if home_region == "":
-        return ["Reject"]
-    if country2 == "":
-        return ["Reject"]
-    if from_region == "":
-        return ["Reject"]
-    if from_city == "":
-        return ["Reject"]
-    if reason == "":
+
+    fields = (first_name, last_name, birth_date, country1, home_city, home_region, country2, from_region, from_city,
+              reason)
+
+    if item in fields == "":
         return ["Reject"]
 
     #Check if passport_number included and correctly formatted; reject if blank or invalid format
