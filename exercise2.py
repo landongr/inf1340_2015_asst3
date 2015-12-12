@@ -6,9 +6,7 @@ Computer-based immigration office for Kanadia
 
 """
 
-__author__ = 'Graham Landon'
-__author__ = 'Erin Canning'
-__author__ = 'Brady Williamson'
+__author__ = "Graham Landon, Erin Canning, and Brady Williamson"
 
 import re
 import datetime
@@ -19,106 +17,78 @@ def decide(test_applicant, countries):
     """
     Decides whether a traveller's entry into Kanadia should be accepted, rejected, or if they should be quarantined.
 
-    :param input_file: The name of a JSON formatted file that contains
-        cases to decide
-    :param countries_file: The name of a JSON formatted file that contains
-        country data, such as whether an entry or transit visa is required,
-        and whether there is currently a medical advisory
+    :param test_applicant
+    :param countries
     :return: List of strings. Possible values of strings are:
         "Accept", "Reject", and "Quarantine"
     """
 
+    ######################
+    ###Local Constants####
+    ######################
 
-    # for person in test_applicant:
-    #     for item in person:
-    #         if item == "":
-    #             return ["Reject"]
-    #         for things in item:
-    #             if things == "":
-    #                 return ["Reject"]
+    # Variable for Applicant's Home Country
+    home_country = test_applicant["home"]["country"]
 
-    #########################
-    ###CREATING VARIABLES####
-    #########################
+    # Variable for Country Applicant Traveling From
+    from_country = test_applicant["from"]["country"]
 
-    #??????  do we need it?  mentioned in the check_reason function; seems to do same thing as country3
-    country = ""
-
-    #Variable for Applicant's Home Country
-    country1 = test_applicant["home"]["country"]
-
-    #Variable for Country Applicant Traveling From
-    country2 = test_applicant["from"]["country"]
-
-    #Variable for first name (for entry record completeness check)
+    # Variable for first name (for entry record completeness check)
     first_name = test_applicant["first_name"]
 
-    #variable for last name (for entry record completeness check)
+    # variable for last name (for entry record completeness check)
     last_name = test_applicant["last_name"]
 
-    #variable for birth date (for entry record completeness check)
+    # variable for birth date (for entry record completeness check)
     birth_date = test_applicant["birth_date"]
 
-    #Variable for Applicant passport number
-    passport_number = test_applicant["passport"]
-
-    #variable for home city (for entry record completeness check)
+    # variable for home city (for entry record completeness check)
     home_city = test_applicant["home"]["city"]
 
-    #variable for home region (for entry record completeness check)
+    # variable for home region (for entry record completeness check)
     home_region = test_applicant["home"]["region"]
 
-    #variable for city applicant arriving from (for entry record completeness check)
+    # variable for city applicant arriving from (for entry record completeness check)
     from_city = test_applicant["from"]["city"]
 
-    #variable for region applicant arriving from (for entry record completeness check)
+    # variable for region applicant arriving from (for entry record completeness check)
     from_region = test_applicant["from"]["region"]
 
-    #Variable for Applicant's reason for entering the country
+    # Variable for Applicant's reason for entering the country
     reason = test_applicant["entry_reason"]
 
-    #Variable for if Applicant's home country has medical advisory
-    #If home country is Kanadia, assign empty string
+    # Variable for if Country Applicant traveled from has Medical Advisory
+    advisory2 = countries[from_country]["medical_advisory"]
 
-    #Variable for if Country Applicant traveled from has Medical Advisory
-    advisory2 = countries[country2]["medical_advisory"]
-
-    #Variable for Applicant passport number
+    # Variable for Applicant passport number
     passport_number = test_applicant["passport"]
 
-    #Assign empty string for Applicant's Visa Number
+    # Assign empty string for Applicant's Visa Number
     visa_code = ""
 
-    #Assign empty string for Applicant's Visa Date
+    # Assign empty string for Applicant's Visa Date
     date_string = ""
 
-    #If Applicant has visa, reassign variables with visa date and number
+    # If Applicant has visa, reassign variables with visa date and number
     if "visa" in test_applicant:
         date_string = test_applicant["visa"]["date"]
         visa_code = test_applicant["visa"]["code"]
 
-    #Assign empty string for via country medical advisory
+    # Assign empty string for via country medical advisory
     advisory3 = ""
 
-    #Assign empty string for Country Applicant Traveled via
-    country3 = ""
+    # Assign empty string for Country Applicant Traveled via
+    via_country = ""
 
-    #If applicant traveled via another country, reassign the empty strings
+    # If applicant traveled via another country, reassign the empty strings
     if "via" in test_applicant:
-        #Variable for name of via country
-        country3 = test_applicant["via"]["country"]
-        #Variable for if via country has Medical Advisory
-        advisory3 = countries[country3]["medical_advisory"]
-
-    #Variable for country test Applicant's traveled via (DO WE NEED IT? Already have Country3 variable)
-    if "via" in test_applicant:
-       country = test_applicant["via"]["country"]
-
-
-
+        # Variable for name of via country
+        via_country = test_applicant["via"]["country"]
+        # Variable for if via country has Medical Advisory
+        advisory3 = countries[via_country]["medical_advisory"]
 
     ####################
-    #Validity Checks####
+    ##Validity Checks###
     ####################
 
     #I think we need to have it do the quarantine check before anything else,
@@ -137,11 +107,12 @@ def decide(test_applicant, countries):
         #Might be better as a function? but how? can't pass all these things to it...
     #Check that no required fields on the entry record are blank.
 
-    fields = (first_name, last_name, birth_date, country1, home_city, home_region, country2, from_region, from_city,
+    fields = (first_name, last_name, birth_date, home_country, home_city, home_region, from_country, from_region, from_city,
               reason)
 
-#    if entry in fields == "":
-#        return ["Reject"]
+    for entry in fields:
+        if entry == "":
+            return ["Reject"]
 
     #Check if passport_number included and correctly formatted; reject if blank or invalid format
     valid_passport_format(passport_number)
@@ -158,10 +129,10 @@ def decide(test_applicant, countries):
     #Check if applicant has traveled via other countries
     #Check whether the via countries are valid country codes
     #Check whether reason for entering Kanadia valid
-    #altered to use the country3 variable instead of just "country"
+    #altered to use the via_country variable instead of just "country"
     if "via" in test_applicant:
-        location_check(country3)
-        if location_check(country3) == False:
+        location_check(via_country)
+        if location_check(via_country) == False:
             return ["Reject"]
         check_reason(reason,test_applicant, countries)
         if check_reason(reason,test_applicant, countries)== True:
@@ -170,15 +141,15 @@ def decide(test_applicant, countries):
             return ["Reject"]
 
     #Test if Applicant's home is Kanadia; accept them if it is
-    #I switched this to use country1 so we could eliminate home_country variable
+    #I switched this to use home_country so we could eliminate home_country variable
     #no need for a function to do this; shorter if we just use an if statement
     #ALSO moved this closer to the bottom, because you could have a case of Kanadian traveling via an invalid country;
     # you'd have to reject them, right?
-    #kan_check(country1)
-    #if kan_check(country1) == True:
+    #kan_check(home_country)
+    #if kan_check(home_country) == True:
         #return ["Accept"]
         #exit
-    if country1 == "KAN":
+    if home_country == "KAN":
         return ["Accept"]
 
 
@@ -200,10 +171,10 @@ def decide(test_applicant, countries):
 
 
     #Test if Applicant's home is Kanadia; accept them if it is
-    #I switched this to use country1 so we could eliminate home_country variable
+    #I switched this to use home_country so we could eliminate home_country variable
     #no need for a function to do this; shorter if we just use an if statement
-    #kan_check(country1)
-    #if kan_check(country1) == True:
+    #kan_check(home_country)
+    #if kan_check(home_country) == True:
         #return ["Accept"]
         #exit
 
@@ -302,19 +273,19 @@ def valid_date_format(date_string):
         return True
 
 
-def location_check(country):
+def location_check(check_country):
     """
     Checks whether provided home country of an applicant is valid
     :param country: 3-letter string representing a country.
-    :return: Boolean; True if Country1 is KAN or other legitimate country key; False otherwise
+    :return: Boolean; True if home_country is KAN or other legitimate country key; False otherwise
     """
 
     json_data = open("countries.json").read()
     contents = json.loads(json_data)
     for key in contents:
-        if country == "KAN":
+        if check_country == "KAN":
             return True
-        elif country == key:
+        elif check_country == key:
             return True
     else:
         return False

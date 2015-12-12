@@ -5,9 +5,7 @@
 This module performs table operations on database tables
 implemented as lists of lists. """
 
-__author__ = 'Graham Landon'
-__author__ = 'Erin Canning'
-__author__ = 'Brady Williamson'
+__author__ = "Graham Landon, Erin Canning, and Brady Williamson"
 
 EMPLOYEES = [["Surname", "FirstName", "Age", "Salary"],
              ["Smith", "Mary", 25, 2000],

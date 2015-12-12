@@ -2,7 +2,7 @@
 
 """ Module to test papers.py  """
 
-__author__ = "Graham Landon"
+__author__ = "Graham Landon, Erin Canning, and Brady Williamson"
 __status__ = "Prototype"
 
 # imports one per line
