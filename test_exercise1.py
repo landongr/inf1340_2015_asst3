@@ -219,18 +219,18 @@ def test_cross_product1():
     Test cross_product operation (student version)
     """
     result1 = [['Make', 'Color', 'Year', 'Works(y/n)', 'Make', 'Color', 'Year', 'Works(y/n)'],
-              ['Toyota', 'Yellow', 1989, 'y', 'Toyota', 'Yellow', 1989, 'y'],
-              ['Toyota', 'Yellow', 1989, 'y', 'Honda', 'Red', 1998, 'n'],
-              ['Toyota', 'Yellow', 1989, 'y', 'Dodge', 'Purple', 2000, 'y'],
-              ['Honda', 'Orange', 2011, 'n', 'Toyota', 'Yellow', 1989, 'y'],
-              ['Honda', 'Orange', 2011, 'n', 'Honda', 'Red', 1998, 'n'],
-              ['Honda', 'Orange', 2011, 'n', 'Dodge', 'Purple', 2000, 'y'],
-              ['Dodge', 'Purple', 2000, 'y', 'Toyota', 'Yellow', 1989, 'y'],
-              ['Dodge', 'Purple', 2000, 'y', 'Honda', 'Red', 1998, 'n'],
-              ['Dodge', 'Purple', 2000, 'y', 'Dodge', 'Purple', 2000, 'y'],
-              ['Fiat', 'Polka dot', 1999, 'y', 'Toyota', 'Yellow', 1989, 'y'],
-              ['Fiat', 'Polka dot', 1999, 'y', 'Honda', 'Red', 1998, 'n'],
-              ['Fiat', 'Polka dot', 1999, 'y', 'Dodge', 'Purple', 2000, 'y']]
+               ['Toyota', 'Yellow', 1989, 'y', 'Toyota', 'Yellow', 1989, 'y'],
+               ['Toyota', 'Yellow', 1989, 'y', 'Honda', 'Red', 1998, 'n'],
+               ['Toyota', 'Yellow', 1989, 'y', 'Dodge', 'Purple', 2000, 'y'],
+               ['Honda', 'Orange', 2011, 'n', 'Toyota', 'Yellow', 1989, 'y'],
+               ['Honda', 'Orange', 2011, 'n', 'Honda', 'Red', 1998, 'n'],
+               ['Honda', 'Orange', 2011, 'n', 'Dodge', 'Purple', 2000, 'y'],
+               ['Dodge', 'Purple', 2000, 'y', 'Toyota', 'Yellow', 1989, 'y'],
+               ['Dodge', 'Purple', 2000, 'y', 'Honda', 'Red', 1998, 'n'],
+               ['Dodge', 'Purple', 2000, 'y', 'Dodge', 'Purple', 2000, 'y'],
+               ['Fiat', 'Polka dot', 1999, 'y', 'Toyota', 'Yellow', 1989, 'y'],
+               ['Fiat', 'Polka dot', 1999, 'y', 'Honda', 'Red', 1998, 'n'],
+               ['Fiat', 'Polka dot', 1999, 'y', 'Dodge', 'Purple', 2000, 'y']]
 
     result2 = [["Type", "Size", "Preferred Salinity", "Name", "Movement"],
                ["Trout", "Small", "Fresh", "Pawn", "Forward"],
