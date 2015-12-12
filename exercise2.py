@@ -55,6 +55,7 @@ def decide(test_applicant, countries):
     #             if things == "":
     #                 return ["Reject"]
 
+
     #Variable for Applicant's Visa Number
     visa_code = ""
 
