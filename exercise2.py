@@ -58,7 +58,7 @@ def decide(test_applicant, countries):
     reason = test_applicant["entry_reason"]
 
     # Variable for if Country Applicant traveled from has Medical Advisory
-    advisory2 = countries[from_country]["medical_advisory"]
+    advisory2 = countries.get("medical_advisory", "")
 
     # Variable for Applicant passport number
     passport_number = test_applicant["passport"]
@@ -85,7 +85,7 @@ def decide(test_applicant, countries):
         # Variable for name of via country
         via_country = test_applicant["via"]["country"]
         # Variable for if via country has Medical Advisory
-        advisory3 = countries[via_country]["medical_advisory"]
+        advisory3 = countries.get("medical_advisory", "")
 
     ####################
     ##Validity Checks###
@@ -326,15 +326,10 @@ def check_reason(reason, test_applicant, countries):
 def check_medical_advise(advisory2, advisory3):
     """
     Checks whether there are medical advisories in
-    :param advisory: a string to indicate whether there is a medical advisory in applicant's home country
     :param advisory2: a string to indicate whether there is a medical advisory in country applicant traveled from
     :param advisory3: a string to indicate whether there is a medical advisory in country applicant traveled via
     :return: Boolean; False if any advisories exist; otherwise, True.
     """
-
-    #The instructions say "if the traveller is coming from or traveling through a country with a medical advisory
-    #But we also check their home country.  Is that correct?  I would argue that we're right here,
-    #but i don't know if it's in line with the assignment
 
     if advisory2 != "":
         return False
