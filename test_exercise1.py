@@ -10,7 +10,7 @@ __author__ = 'Graham Landon'
 __author__ = 'Erin Canning'
 __author__ = 'Brady Williamson'
 
-from exercise1 import selection, projection, cross_product, copy
+from exercise1 import selection, projection, cross_product, UnknownAttributeException, copy
 
 
 ###########
@@ -34,6 +34,11 @@ TRUCKS = [["Make", "Color", "Year", "Works(y/n)"],
           ["Honda", "Red", 1998, "n"],
           ["Dodge", "Purple", 2000, "y"]]
 
+BIKES = [["Make", "Color", "Year", "Works(y/n)"],
+          ["Huffy","Puce", 1989, "y"],
+          ["Trek", "Pink", 1955, "y"],
+          ["BikeCo", "Orange", 1976, "y"]]
+
 R1 = [["Employee", "Department"],
       ["Smith", "sales"],
       ["Black", "production"],
@@ -42,6 +47,15 @@ R1 = [["Employee", "Department"],
 R2 = [["Department", "Head"],
       ["production", "Mori"],
       ["sales", "Brown"]]
+
+FISH = [["Type", "Size", "Preferred Salinity"],
+        ["Trout", "Small", "Fresh"],
+        ["Dogfish", "Medium", "Salt"],
+        ["Great White", "Large", "Salt"]]
+
+CHESSMEN = [["Name", "Movement"],
+            ["Pawn", "Forward"],
+            ["Knight", "L-Shape"]]
 
 
 #####################
@@ -69,6 +83,15 @@ def filter_employees(row):
     """
     return row[-2] >= 30 and row[-1] > 3500
 
+def filter_vehicles(row):
+    """
+    Check if car represented by row
+    is a 1999 model or newer.
+    :param row: A List in the format:
+        [{Make}, {Color}, {Year}, {Works(y/n)}]
+    :return: True if the row satisfies the condition.
+    """
+    return row[-2] >= 1999
 
 
 ###################
@@ -120,23 +143,78 @@ def test_cross_product():
 ##Student Tests##
 #################
 
+def test_selection1():
+    """
+    Test select operation (student version)
+    """
+    result1 = [["Make", "Color", "Year", "Works(y/n)"],
+                ["Honda", "Orange", 2011, "n"],
+                ["Dodge", "Purple", 2000, "y"],
+                ["Fiat", "Polka dot", 1999, "y"]]
+
+    result2 = [["Make", "Color", "Year", "Works(y/n)"],
+                ["Dodge", "Purple", 2000, "y"]]
+
+    #Test with CARS table and filter_vehicles
+    assert is_equal(result1, selection(CARS, filter_vehicles))
+
+    #Test with TRUCKS table and filter_vehicles
+    assert is_equal(result2, selection(TRUCKS, filter_vehicles))
+
+    #Test with BIKES table and filter_vehicles (should filter out all entries and return None)
+    assert selection(BIKES, filter_vehicles) == None
+
 def test_projection1():
-
-    # Test the projection function
-
-    result = [['Make', 'Year'],
+    """
+    Test projection operation (student version)
+    """
+    result1 = [['Make', 'Year'],
               ['Toyota', 1989],
               ['Honda', 2011],
               ['Dodge', 2000],
               ['Fiat', 1999]]
 
-    assert is_equal(result, projection(CARS,["Make", "Year"]))
+    result2 = [["Size", "Preferred Salinity"],
+                ["Small", "Fresh"],
+                ["Medium", "Salt"],
+                ["Large", "Salt"]]
 
+    result3 = [["Preferred Salinity"],
+                ["Fresh"],
+                ["Salt"],
+                ["Salt"]]
 
+    result4 = [["Type", "Size", "Preferred Salinity"],
+             ["Trout", "Small", "Fresh"],
+             ["Dogfish", "Medium", "Salt"],
+             ["Great White", "Large", "Salt"]]
+
+    #Test with regular table and 2 attributes.
+    assert is_equal(result1, projection(CARS,["Make", "Year"]))
+
+    #Test with another regular table and 2 attributes
+    assert is_equal(result2, projection(FISH, ["Size", "Preferred Salinity"]))
+
+    #Test with regular table and only 1 attribute
+    assert is_equal(result3, projection(FISH, ["Preferred Salinity"]))
+
+    #Test with regular table and all included attributes
+    assert is_equal(result4, projection(FISH, ["Type", "Size", "Preferred Salinity"]))
+
+    #Test with regular table and attributes provided out of order
+    assert is_equal(result4, projection(FISH, ["Size", "Preferred Salinity", "Type"]))
+
+    #Test with attributes not included in table
+    try:
+       projection(FISH, ["Colour"])
+    except UnknownAttributeException:
+        assert True
 
 def test_cross_product1():
-    #BUGGY NOT WORKING!
-    result = [['Make', 'Color', 'Year', 'Works(y/n)', 'Make', 'Color', 'Year', 'Works(y/n)'],
+    """
+    Test cross_product operation (student version)
+    """
+    result1 = [['Make', 'Color', 'Year', 'Works(y/n)', 'Make', 'Color', 'Year', 'Works(y/n)'],
               ['Toyota', 'Yellow', 1989, 'y', 'Toyota', 'Yellow', 1989, 'y'],
               ['Toyota', 'Yellow', 1989, 'y', 'Honda', 'Red', 1998, 'n'],
               ['Toyota', 'Yellow', 1989, 'y', 'Dodge', 'Purple', 2000, 'y'],
@@ -150,21 +228,27 @@ def test_cross_product1():
               ['Fiat', 'Polka dot', 1999, 'y', 'Honda', 'Red', 1998, 'n'],
               ['Fiat', 'Polka dot', 1999, 'y', 'Dodge', 'Purple', 2000, 'y']]
 
-    result2 = [['Make', 'Color', 'Year', 'Works(y/n)', 'Make', 'Color', 'Year', 'Works(y/n)'],
-               ['Toyota', 'Yellow', 1989, 'y', 'Toyota', 'Yellow', 1989, 'y'],
-               ['Toyota', 'Yellow', 1989, 'y', 'Honda', 'Red', 1998, 'n'],
-               ['Toyota', 'Yellow', 1989, 'y', 'Dodge', 'Purple', 2000, 'y'],
-               ['Honda', 'Orange', 2011, 'n', 'Toyota', 'Yellow', 1989, 'y'],
-               ['Honda', 'Orange', 2011, 'n', 'Honda', 'Red', 1998, 'n'],
-               ['Honda', 'Orange', 2011, 'n', 'Dodge', 'Purple', 2000, 'y'],
-               ['Dodge', 'Purple', 2000, 'y', 'Toyota', 'Yellow', 1989, 'y'],
-               ['Dodge', 'Purple', 2000, 'y', 'Honda', 'Red', 1998, 'n'],
-               ['Dodge', 'Purple', 2000, 'y', 'Dodge', 'Purple', 2000, 'y'],
-               ['Fiat', 'Polka dot', 1999, 'y', 'Toyota', 'Yellow', 1989, 'y'],
-               ['Fiat', 'Polka dot', 1999, 'y', 'Honda', 'Red', 1998, 'n'],
-               ['Fiat', 'Polka dot', 1999, 'y', 'Dodge', 'Purple', 2000, 'y']]
+    result2 = [["Type", "Size", "Preferred Salinity", "Name", "Movement"],
+               ["Trout", "Small", "Fresh", "Pawn", "Forward"],
+               ["Trout", "Small", "Fresh", "Knight", "L-Shape"],
+               ["Dogfish", "Medium", "Salt","Pawn", "Forward"],
+               ["Dogfish", "Medium", "Salt", "Knight", "L-Shape"],
+               ["Great White", "Large", "Salt", "Pawn", "Forward"],
+               ["Great White", "Large", "Salt", "Knight", "L-Shape"]]
 
-    assert is_equal(result, cross_product(CARS, TRUCKS))
-    #assert is_equal(result2, cross_product(CARS, TRUCKS))
+    result3 = [["Name", "Movement", "Type", "Size", "Preferred Salinity"],
+               ["Pawn", "Forward", "Trout", "Small", "Fresh"],
+               ["Pawn", "Forward", "Dogfish", "Medium", "Salt"],
+               ["Pawn", "Forward", "Great White", "Large", "Salt"],
+               ["Knight", "L-Shape", "Trout", "Small", "Fresh"],
+               ["Knight", "L-Shape", "Dogfish", "Medium", "Salt"],
+               ["Knight", "L-Shape", "Great White", "Large", "Salt"]]
 
+    #Test cross_product of 2 regular tables
+    assert is_equal(result1, cross_product(CARS, TRUCKS))
 
+    #Test cross_product of 2 other regular tables
+    assert is_equal(result2, cross_product(FISH, CHESSMEN))
+
+    #Test cross_product of 2 tables in opposite order
+    assert is_equal(result3, cross_product(CHESSMEN, FISH))

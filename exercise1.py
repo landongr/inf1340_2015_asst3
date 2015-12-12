@@ -24,6 +24,17 @@ R2 = [["Department", "Head"],
       ["production", "Mori"],
       ["sales", "Brown"]]
 
+TRUCKS = [["Make", "Color", "Year", "Works(y/n)"],
+          ["Toyota","Yellow", 1989, "y"],
+          ["Honda", "Red", 1998, "n"],
+          ["Dodge", "Purple", 2000, "y"]]
+
+BIKES = [["Make", "Color", "Year", "Works(y/n)"],
+          ["Huffy","Puce", 1989, "y"],
+          ["Trek", "Pink", 1955, "y"],
+          ["BikeCo", "Orange", 1976, "y"]]
+
+
 import copy
 
 def filter_employees(row):
@@ -37,7 +48,15 @@ def filter_employees(row):
     """
     return row[-2] >= 30 and row[-1] > 3500
 
-
+def filter_vehicles(row):
+    """
+    Check if car represented by row
+    is a 1999 model or newer.
+    :param row: A List in the format:
+        [{Make}, {Color}, {Year}, {Works(y/n)}]
+    :return: True if the row satisfies the condition.
+    """
+    return row[-2] >= 1999
 #####################
 # HELPER FUNCTIONS ##
 #####################
@@ -92,7 +111,8 @@ def selection(t, f):
     Perform select operation on table t that satisfy condition f.
     :param: t: a table (list of lists)
     :param: f: a function to apply to t
-    :returns: new_table: a table (list of lists) that results from applying function f to table t
+    :returns: new_table: a table (list of lists) that results from applying function f to table t.
+    If result is an empty table, returns None.
 
     Example:
     > R = [["A", "B", "C"], [1, 2, 3], [4, 5, 6]]
@@ -110,10 +130,15 @@ def selection(t, f):
         if f(row) is True:
             # If they return True they are appended to a new table
             new_table.append(row)
-    return new_table
+    # If only first row was added to table, return None
+    if len(new_table) == 1:
+        return None
+    # Otherwise, return the new_table
+    else:
+        return new_table
 
 
-selection(EMPLOYEES, filter_employees)
+selection(TRUCKS, filter_vehicles)
 
 
 def projection(q, r):
@@ -124,6 +149,7 @@ def projection(q, r):
     :param: q: a table (list of lists)
     :param: r: a list of attributes
     :returns: t: a table (list of lists)
+    :raises: UnknownAttributeException if attribute r is not included in table q
     Example:
     > R = [["A", "B", "C"], [1, 2, 3], [4, 5, 6]]
     > projection(R, ["A", "C"])
