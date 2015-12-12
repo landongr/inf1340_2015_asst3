@@ -6,16 +6,16 @@
     "home": {
       "city": "Bala",
       "region": "ON",
-      "country": "DSK"
+      "country": "ELE"
     },
     "entry_reason": "visit",
     "from": {
-      "city": "Weasel",
+      "city": "Buckettown",
       "region": "Rodent",
-      "country": "BRD"
+      "country": "FRY"
     },
     "via": {
-        "country": "ELE",
+        "country": "FRY",
         "country name" : "Peoples Republic of Headdeskia"
     },
     "visa": {
