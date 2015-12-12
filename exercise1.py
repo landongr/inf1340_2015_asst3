@@ -37,6 +37,7 @@ BIKES = [["Make", "Color", "Year", "Works(y/n)"],
 
 import copy
 
+
 def filter_employees(row):
     """
     Check if employee represented by row
@@ -48,6 +49,7 @@ def filter_employees(row):
     """
     return row[-2] >= 30 and row[-1] > 3500
 
+
 def filter_vehicles(row):
     """
     Check if car represented by row
@@ -57,6 +59,7 @@ def filter_vehicles(row):
     :return: True if the row satisfies the condition.
     """
     return row[-2] >= 1999
+
 #####################
 # HELPER FUNCTIONS ##
 #####################
@@ -137,8 +140,6 @@ def selection(t, f):
     else:
         return new_table
 
-
-selection(TRUCKS, filter_vehicles)
 
 
 def projection(q, r):
