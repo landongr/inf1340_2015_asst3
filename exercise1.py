@@ -90,6 +90,9 @@ def fun(table):
 def selection(t, f):
     """
     Perform select operation on table t that satisfy condition f.
+    :param: t: a table (list of lists)
+    :param: f: a function to apply to t
+    :returns: new_table: a table (list of lists) that results from applying function f to table t
 
     Example:
     > R = [["A", "B", "C"], [1, 2, 3], [4, 5, 6]]
@@ -116,9 +119,11 @@ selection(EMPLOYEES, filter_employees)
 def projection(q, r):
 
     """
-    Perform projection operation on table t
+    Perform projection operation on table q
     using the attributes subset r.
-
+    :param: q: a table (list of lists)
+    :param: r: a list of attributes
+    :returns: t: a table (list of lists)
     Example:
     > R = [["A", "B", "C"], [1, 2, 3], [4, 5, 6]]
     > projection(R, ["A", "C"])
@@ -159,7 +164,9 @@ def projection(q, r):
 def cross_product(t1, t2):
     """
     Return the cross-product of tables t1 and t2.
-
+    :param: t1: a table (list of lists)
+    :param: t2: a list of attributes
+    :returns: new2_table: a table (list of lists)that is the cross-product of t1 and t2
     Example:
     > R1 = [["A", "B"], [1,2], [3,4]]
     > R2 = [["C", "D"], [5,6]]
