@@ -77,25 +77,36 @@ def decide(test_applicant, countries):
     reason = test_applicant["entry_reason"]
 
     #Validity Checks
+
+    #Check if passport_number correctly formatted; reject if invalid format
     valid_passport_format(passport_number)
     if valid_passport_format(passport_number) == False:
         return ["Reject"]
+
+    #Check if test_applicant has visa
     #Buggy
     if "visa" in test_applicant:
+        #Test if visa_code correctly formatted; reject if invalid format
         valid_visa_format(visa_code)
         if valid_visa_format(visa_code) == False:
             return ["Reject"]
+
+        #Test if visa's date_string correctly formatted; reject if invalid format
         valid_date_format(date_string)
         if valid_date_format(date_string) == False:
             return ["Reject"]
+
     kan_check(home_country)
     if kan_check(home_country) == True:
         return ["Accept"]
         exit
+
     check_medical_advise(advisory, advisory2, advisory3)
     if check_medical_advise(advisory, advisory2,advisory3) == False:
         return ["Quarantine"]
         exit
+
+    #Check if test_applicant has traveled via other countries
     if "via" in test_applicant:
         location_check(country)
         if location_check(country) == False:
@@ -114,34 +125,68 @@ def decide(test_applicant, countries):
 #####################
 # HELPER FUNCTIONS ##
 #####################
+
+
+
+#### SHOULD WE RENAME THIS?  It's confusing that a function that is called is_more_than_2_years_ago returns True
+#### if it is LESS than 2 years old
 def is_more_than_2_years_ago(date_string):
     """
-    Check if date is less than 2 years ago.
+    Check if date is less than two years ago.
 
-    :param x: int representing years
-    :param date_string: a date string in format "YYYY-mm-dd"
-    :return: True if date is less than x years ago; False otherwise.
+    :param date_string: a date string in format "YYYY-MM-DD"
+    :return: True if date is less than two years ago; False otherwise.
     """
 
     now = datetime.datetime.now()
     two_years_ago = now.replace(year=now.year - 2)
     date = datetime.datetime.strptime(date_string, '%Y-%m-%d')
-
     return (date - two_years_ago).total_seconds() > 0
 
+#is_more_than_2_years_ago("1986-05-08")
+    #returns False
+
+#is_more_than_2_years_ago("2015-05-08")
+    #returns True
 
 def valid_passport_format(passport_number):
     """
-    Checks whether a passport number is five sets of five alpha-number characters separated by dashes
+    Checks whether a passport number is five groups of five alpha-numeric characters separated by dashes
     :param passport_number: alpha-numeric string
     :return: Boolean; True if the format is valid, False otherwise
     """
-    #THIS IS BUGGY
+    #Brady tested it and it seems to work just fine
+    #EXCEPT it allows passports with underscores.  do we have to consider the chance of underscores?
     passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}")
     passport_match = passport_format_regex.search(passport_number)
     if passport_match is None:
+        #take out print statement after testing
+        #print False
         return False
-#valid_passport_format("JMZ0S-89IA9-OTCLY-MQILJ-P7CTY")
+    #Brady added the "true" option for testing and to match the reqs of the docstring return line.
+    #we may be able to delete the else statement and fix the docstring at the end
+    else:
+         #take out print statement after testing
+        #print True
+        return True
+#valid_passport_format("JMZ0S-89IA9-OTCLY-MQ4LJ-P7CTY")
+    #no problem with correct format
+
+#valid_passport_format("jMz0s-89IA9-OTCLY-MQ4LJ-P7CTY")
+    #no problem with this correct format mix of caps/nocaps/numbers
+
+#valid_passport_format("89IA9-OTCLY-MQ4LJ-P7CTY-uuuu_")
+    #UHOH it allows underscores
+
+#valid_passport_format("7")
+    #no problem, False because it's not even close
+
+#valid_passport_format("89IA9-OTCLY-MQ4LJ-P7CTY-uuuu.")
+    #no problem, False because of period
+
+#valid_passport_format("JJJJ-OTCLY-MQ4LJ-P7CTY-uuuuu")
+    #no problem, false because of too few in first block
+
 
 def valid_visa_format(visa_code):
     """
@@ -150,6 +195,9 @@ def valid_visa_format(visa_code):
     :return: Boolean; True if the format is valid, False otherwise
 
     """
+
+    #the assignment says the visa format should be 5 groups of 5 alphanumerics separated by dashes (like the passport)
+    #did Susan make a change to this so it's just two groups of 5 alphanumerics?
 
     visa_format_regex = re.compile(r"\w{5}-\w{5}")
     visa_match = visa_format_regex.search(visa_code)
@@ -161,7 +209,7 @@ def valid_visa_format(visa_code):
 
 def valid_date_format(date_string):
     """
-    Checks whether a date has the format YYYY-mm-dd in numbers
+    Checks whether a date has the format YYYY-MM-DD in numbers
     :param date_string: date to be checked
     :return: Boolean True if the format is valid, False otherwise
     """
@@ -174,6 +222,12 @@ def valid_date_format(date_string):
         return True
 
 def location_check(country1):
+    """
+    Checks whether Country1 ??????
+    :param country1: ????????
+    :return: Boolean; True if Country1 is KAN or ???????; False otherwise
+    """
+
     json_data = open("countries.json").read()
     contents = json.loads(json_data)
     for key in contents:
@@ -186,29 +240,59 @@ def location_check(country1):
 
 
 def kan_check(home_country):
+    """
+    Checks whether Kanadia is home_country
+    :param home_country: 3-letter string indicating home country of applicant
+    :return: Boolean; True if home_country is KAN; False otherwise
+    """
+
     if home_country == "KAN":
         return True
     else:
-        False
+        return False
 
+def check_reason(reason, test_applicant, countries):
+    """
+    Checks reason for test_applicant's entry to Kanadia; if it is visit, checks whether visitors from that country
+     need a visitor visa; if they do, checks whether that visa is less than two years old.
+    :param reason: 3-letter string indicating home country of applicant
+    :param test_applicant:
+    :param countries:
+    :return: Boolean; True if home_country is KAN; False otherwise
+    """
 
-def check_reason(reason,test_applicant, countries):
+    #Retrieve test_applicant's visa date
     date_string = test_applicant["visa"]["date"]
+
+
     if reason == "visit":
+        #Retrieve test_applicant home country; if does not require a visa, return True
         country = test_applicant["home"]["country"]
         if countries[country]["visitor_visa_required"] == "0":
             return True
+
+        #If visa date (date_string) less than 2 years old, return True
         else:
             if is_more_than_2_years_ago(date_string) == True:
                 return True
             else:
                 return False
+    #If reason for entry is returning, return True
     elif reason == "returning":
         return True
     else:
         return False
 
 def check_medical_advise(advisory, advisory2, advisory3):
+    """
+    Checks whether the ?????
+    :param advisory
+    :param advisory2
+    :param advisory3
+    :return: Boolean; False if advisories; otherwise, True
+    """
+
+
     if advisory != "":
         return False
     elif advisory2 != "":
@@ -225,5 +309,6 @@ with open("countries.json","r") as country_reader:
 
 #app = json.loads("JSONtest.json")
 #cry = json.loads("countries.json")
+    #should this be ctry instead of cry?
 
-print decide(applicant, ctry)
+#print decide(applicant, ctry)
