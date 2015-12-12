@@ -35,7 +35,7 @@ COUNTRIES = None
 
 def decide(test_applicant, countries):
     """
-    Decides whether a traveller's entry into Kanadia should be accepted
+    Decides whether a traveller's entry into Kanadia should be accepted, rejected, or if they should be quarantined.
 
     :param input_file: The name of a JSON formatted file that contains
         cases to decide
@@ -54,29 +54,82 @@ def decide(test_applicant, countries):
     #         for things in item:
     #             if things == "":
     #                 return ["Reject"]
+
+    #Variable for Applicant's Visa Number
     visa_code = ""
+
+    #Variable for Applicant's Visa Date
     date_string = ""
+
+    #??????
     advisory3 = ""
+
+    #??????
     country = ""
+
+    #Variable for Applicant's Home Country
     country1 = test_applicant["home"]["country"]
+
+    #Variable for Country Applicant Traveling From
     country2 = test_applicant["from"]["country"]
+
+    #Variable for Country Applicant Traveled via
     country3 = ""
+
     if "via" in test_applicant:
         country3 = test_applicant["via"]["country"]
+        #Variable for if Country Applicant Traveled via has Medical Advisory
         advisory3 = countries[country3]["medical_advisory"]
-    if country1 != "KAN":
+
+    #Variable for if Applicant's home country has medical advisory
+    #If home country is Kanadia, assign empty string
+    if country1 == "KAN":
+        advisory = ""
+    else:
         advisory = countries[country1]["medical_advisory"]
+
+    #Variable for if Country Applicant traveled from has Medical Advisory
     advisory2 = countries[country2]["medical_advisory"]
+
+    #Variable for Applicant passport number
     passport_number = test_applicant["passport"]
+
+    #If Applicant has visa, retrieve visa date and number
     if "visa" in test_applicant:
         date_string = test_applicant["visa"]["date"]
         visa_code = test_applicant["visa"]["code"]
+
+    #Variable for Applicant's home country (DO WE NEED IT?  Already have Country1 variable)
     home_country = test_applicant["home"]["country"]
+
+    #Variable for country test Applicant's traveled via (DO WE NEED IT? Already have Country3 variable)
     if "via" in test_applicant:
         country = test_applicant["via"]["country"]
+
+    #Variable for Applicant's reason for entering the country
     reason = test_applicant["entry_reason"]
 
-    #Validity Checks
+
+    ####################
+    #Validity Checks####
+    ####################
+
+    #I think we need to have it do the quarantine check before anything else,
+    # since that is the first in the priority list of immig decisions
+    #So i moved it to the top of the validity checks
+    #To make it work with people whose home is Kanadia, I changed the lines above to assign
+    #a blank string to "advisory" variable for Kanadians (since KAN is not on the list of countries)
+    #I tested it and it will now quarantine a Kanadian applicant
+
+    #Check if there are medical advisories in home country (advisory); from country (advisory2); via country (advisory3)
+    check_medical_advise(advisory, advisory2, advisory3)
+    if check_medical_advise(advisory, advisory2,advisory3) == False:
+        return ["Quarantine"]
+        exit
+
+
+    #I think the second thing we need to do is check that no info on entry record is missing
+        #First name; last name; birthdate; passport number; home; from; reason for entry
 
     #Check if passport_number correctly formatted; reject if invalid format
     valid_passport_format(passport_number)
@@ -96,15 +149,16 @@ def decide(test_applicant, countries):
         if valid_date_format(date_string) == False:
             return ["Reject"]
 
+    #Test is Applicant's home is Kanadia; accept them if it is
     kan_check(home_country)
     if kan_check(home_country) == True:
         return ["Accept"]
         exit
 
-    check_medical_advise(advisory, advisory2, advisory3)
-    if check_medical_advise(advisory, advisory2,advisory3) == False:
-        return ["Quarantine"]
-        exit
+
+
+
+
 
     #Check if test_applicant has traveled via other countries
     if "via" in test_applicant:
@@ -258,7 +312,7 @@ def check_reason(reason, test_applicant, countries):
     :param reason: 3-letter string indicating home country of applicant
     :param test_applicant:
     :param countries:
-    :return: Boolean; True if home_country is KAN; False otherwise
+    :return: Boolean;
     """
 
     #Retrieve test_applicant's visa date
@@ -286,12 +340,15 @@ def check_reason(reason, test_applicant, countries):
 def check_medical_advise(advisory, advisory2, advisory3):
     """
     Checks whether the ?????
-    :param advisory
+    :param advisory: Variable to indicate whether there is a medical advisory in applicant's home country
     :param advisory2
     :param advisory3
     :return: Boolean; False if advisories; otherwise, True
     """
 
+    #The instructions say "if the travler is coming from or traveling through a country with a medical advisory
+    #But we also check their home country.  Is that correct?  I would argue that we're right here,
+    #but i don't know if it's in line with the assignment
 
     if advisory != "":
         return False
@@ -311,4 +368,4 @@ with open("countries.json","r") as country_reader:
 #cry = json.loads("countries.json")
     #should this be ctry instead of cry?
 
-#print decide(applicant, ctry)
+print decide(applicant, ctry)
