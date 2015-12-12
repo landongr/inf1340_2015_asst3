@@ -97,10 +97,6 @@ def decide(test_applicant, countries):
 
     #Variable for if Applicant's home country has medical advisory
     #If home country is Kanadia, assign empty string
-    if country1 == "KAN":
-        advisory = ""
-    else:
-        advisory = countries[country1]["medical_advisory"]
 
     #Variable for if Country Applicant traveled from has Medical Advisory
     advisory2 = countries[country2]["medical_advisory"]
@@ -150,8 +146,8 @@ def decide(test_applicant, countries):
     #I tested it and it will now quarantine a Kanadian applicant
 
     #Check if there are medical advisories in home country (advisory); from country (advisory2); via country (advisory3)
-    check_medical_advise(advisory, advisory2, advisory3)
-    if check_medical_advise(advisory, advisory2,advisory3) == False:
+    check_medical_advise(advisory2, advisory3)
+    if check_medical_advise(advisory2,advisory3) == False:
         return ["Quarantine"]
         exit
 
@@ -203,7 +199,7 @@ def decide(test_applicant, countries):
         if check_reason(reason,test_applicant, countries)== True:
             return ["Accept"]
         else:
-            return ["False"]
+            return ["Reject"]
 
     #Test if Applicant's home is Kanadia; accept them if it is
     #I switched this to use country1 so we could eliminate home_country variable
@@ -315,9 +311,6 @@ def valid_visa_format(visa_code):
 
     """
 
-    #the assignment says the visa format should be 5 groups of 5 alphanumerics separated by dashes (like the passport)
-    #did Susan make a change to this so it's just two groups of 5 alphanumerics?
-
     visa_format_regex = re.compile(r"\w{5}-\w{5}")
     visa_match = visa_format_regex.search(visa_code)
     if visa_match is None:
@@ -340,6 +333,7 @@ def valid_date_format(date_string):
     else:
         return True
 
+
 def location_check(country):
     """
     Checks whether provided home country of an applicant is valid
@@ -358,21 +352,6 @@ def location_check(country):
         return False
 
 
-
-#NO LONGER USED!  Put in if statement in the decide function
-#can delete kan_check
-def kan_check(home_country):
-    """
-    Checks whether Kanadia is home_country
-    :param home_country: 3-letter string indicating home country of applicant
-    :return: Boolean; True if home_country is KAN; False otherwise
-    """
-
-    if home_country == "KAN":
-        return True
-    else:
-        return False
-
 def check_reason(reason, test_applicant, countries):
     """
     Checks reason for test_applicant's entry to Kanadia; if it is visit, checks whether visitors from that country
@@ -385,7 +364,6 @@ def check_reason(reason, test_applicant, countries):
 
     #Retrieve test_applicant's visa date
     date_string = test_applicant["visa"]["date"]
-
 
     if reason == "visit":
         #Retrieve test_applicant home country; if does not require a visa, return True
@@ -405,7 +383,8 @@ def check_reason(reason, test_applicant, countries):
     else:
         return False
 
-def check_medical_advise(advisory, advisory2, advisory3):
+
+def check_medical_advise(advisory2, advisory3):
     """
     Checks whether there are medical advisories in
     :param advisory: a string to indicate whether there is a medical advisory in applicant's home country
@@ -414,13 +393,11 @@ def check_medical_advise(advisory, advisory2, advisory3):
     :return: Boolean; False if any advisories exist; otherwise, True.
     """
 
-    #The instructions say "if the travler is coming from or traveling through a country with a medical advisory
+    #The instructions say "if the traveller is coming from or traveling through a country with a medical advisory
     #But we also check their home country.  Is that correct?  I would argue that we're right here,
     #but i don't know if it's in line with the assignment
 
-    if advisory != "":
-        return False
-    elif advisory2 != "":
+    if advisory2 != "":
         return False
     elif advisory3 != "":
         return False
