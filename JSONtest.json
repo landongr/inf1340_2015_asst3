@@ -6,21 +6,21 @@
     "home": {
       "city": "Bala",
       "region": "ON",
-      "country": "DSK"
+      "country": "BRD"
     },
     "entry_reason": "visit",
     "from": {
       "city": "Buckettown",
       "region": "Rodent",
-      "country": "TYW"
+      "country": "BRD"
     },
     "via": {
-        "country": "DSA",
+        "country": "DSK",
         "country name" : "Peoples Republic of Headdeskia"
     },
     "visa": {
-        "date" : "2014-06-02",
-        "code" : "12345-jbcde"
+        "date" : "2015-06-02",
+        "code" : "123s42dd45-jdddb423cde"
     }
   }
 

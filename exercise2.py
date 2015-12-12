@@ -91,22 +91,12 @@ def decide(test_applicant, countries):
     ##Validity Checks###
     ####################
 
-    #I think we need to have it do the quarantine check before anything else,
-    # since that is the first in the priority list of immig decisions
-    #To make it work with people whose home is Kanadia, I changed the lines above to assign
-    #a blank string to "advisory" variable for Kanadians (since KAN is not on the list of countries)
-    #I tested it and it will now quarantine a Kanadian applicant
-
-    #Check if there are medical advisories in home country (advisory); from country (advisory2); via country (advisory3)
-    check_medical_advise(advisory2, advisory3)
+    # Check if there are medical advisories in home country (advisory); from country (advisory2);
+    # via country (advisory3)
     if check_medical_advise(advisory2,advisory3) == False:
         return ["Quarantine"]
-        exit
 
-    #I think the second thing we need to do is check that no info on entry record is missing
-        #Might be better as a function? but how? can't pass all these things to it...
-    #Check that no required fields on the entry record are blank.
-
+    # Check that no required fields on the entry record are blank.
     fields = (first_name, last_name, birth_date, home_country, home_city, home_region, from_country, from_region, from_city,
               reason)
 
@@ -114,69 +104,40 @@ def decide(test_applicant, countries):
         if entry == "":
             return ["Reject"]
 
-    #Check if passport_number included and correctly formatted; reject if blank or invalid format
-    valid_passport_format(passport_number)
+    # Check if passport_number included and correctly formatted; reject if blank or invalid format
     if valid_passport_format(passport_number) == False:
         return ["Reject"]
 
-
-    #Then we need to check if any mentioned location is Unknown
-    #but when I try an unknown country key, everything crashes
-        #even with a try-except block in the location check function, things like the medical advisory lines break it
-        #medical advisory lines, etc
-
-
-    #Check if applicant has traveled via other countries
-    #Check whether the via countries are valid country codes
-    #Check whether reason for entering Kanadia valid
-    #altered to use the via_country variable instead of just "country"
+    # Check if applicant has traveled via other countries
+    # Check whether the via countries are valid country codes
+    # Check whether reason for entering Kanadia valid
+    # altered to use the via_country variable instead of just "country"
     if "via" in test_applicant:
         location_check(via_country)
         if location_check(via_country) == False:
             return ["Reject"]
         check_reason(reason,test_applicant, countries)
-        if check_reason(reason,test_applicant, countries)== True:
-            return ["Accept"]
+        if check_reason(reason,test_applicant, countries) == False:
+            return ["Reject"]
         else:
             return ["Reject"]
 
-    #Test if Applicant's home is Kanadia; accept them if it is
-    #I switched this to use home_country so we could eliminate home_country variable
-    #no need for a function to do this; shorter if we just use an if statement
-    #ALSO moved this closer to the bottom, because you could have a case of Kanadian traveling via an invalid country;
-    # you'd have to reject them, right?
-    #kan_check(home_country)
-    #if kan_check(home_country) == True:
-        #return ["Accept"]
-        #exit
+    # Test if Applicant's home is Kanadia; accept them if it is
     if home_country == "KAN":
         return ["Accept"]
 
-
-    #Check if applicant has visa
-    #Buggy
+    # Check if applicant has visa
     if "visa" in test_applicant:
-        #Test if visa_code correctly formatted; reject if invalid format
-        valid_visa_format(visa_code)
+        # Test if visa_code correctly formatted; reject if invalid format
         if valid_visa_format(visa_code) == False:
             return ["Reject"]
 
-        #Test if visa's date_string correctly formatted; reject if invalid format
-        valid_date_format(date_string)
+        # Test if visa's date_string correctly formatted; reject if invalid format
         if valid_date_format(date_string) == False:
             return ["Reject"]
 
     else:
         return "Accept"
-
-
-    #Test if Applicant's home is Kanadia; accept them if it is
-    #I switched this to use home_country so we could eliminate home_country variable
-    #no need for a function to do this; shorter if we just use an if statement
-    #kan_check(home_country)
-    #if kan_check(home_country) == True:
-        #return ["Accept"]
-        #exit
 
 #####################
 # HELPER FUNCTIONS ##
@@ -301,22 +262,22 @@ def check_reason(reason, test_applicant, countries):
     :return: Boolean;
     """
 
-    #Retrieve test_applicant's visa date
+    # Retrieve test_applicant's visa date
     date_string = test_applicant["visa"]["date"]
 
     if reason == "visit":
-        #Retrieve test_applicant home country; if does not require a visa, return True
+        # Retrieve test_applicant home country; if does not require a visa, return True
         country = test_applicant["home"]["country"]
         if countries[country]["visitor_visa_required"] == "0":
             return True
 
-        #If visa date (date_string) less than 2 years old, return True
+        # If visa date (date_string) less than 2 years old, return True
         else:
             if is_more_than_2_years_ago(date_string) == True:
                 return True
             else:
                 return False
-    #If reason for entry is returning, return True
+    # If reason for entry is returning, return True
     elif reason == "returning":
         return True
     else:
