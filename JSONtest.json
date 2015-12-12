@@ -1,6 +1,6 @@
 
   {"passport": "JMZ0S-89IA9-OTCLY-MQILJ-P7CTY",
-    "first_name": "ELIZABETH",
+    "first_name": "Peggy",
     "last_name": "WENDT",
     "birth_date": "1958-08-22",
     "home": {
@@ -15,7 +15,7 @@
       "country": "BRD"
     },
     "via": {
-        "country": "LUG",
+        "country": "ELE",
         "country name" : "Peoples Republic of Headdeskia"
     },
     "visa": {
@@ -23,3 +23,4 @@
         "code" : "12345-abcde"
     }
   }
+

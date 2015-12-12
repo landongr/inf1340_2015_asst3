@@ -61,10 +61,10 @@ def decide(test_applicant, countries):
     #Variable for Applicant's Visa Date
     date_string = ""
 
-    #??????
+    #??????  do we need it here?  declared below in an if statement
     advisory3 = ""
 
-    #??????
+    #??????  do we need it?  mentioned in the check_reason function; seems to do same thing as country3
     country = ""
 
     #Variable for Applicant's Home Country
@@ -75,6 +75,19 @@ def decide(test_applicant, countries):
 
     #Variable for Country Applicant Traveled via
     country3 = ""
+
+    #Variable for first name (for entry record completeness check)
+    first_name = test_applicant["first_name"]
+
+    #variable for last name (for entry record completeness check)
+    last_name = test_applicant["last_name"]
+
+    #variable for birth date (for entry record completeness check)
+    birth_date = test_applicant["birth_date"]
+
+
+
+
 
     if "via" in test_applicant:
         country3 = test_applicant["via"]["country"]
@@ -130,13 +143,26 @@ def decide(test_applicant, countries):
 
     #I think the second thing we need to do is check that no info on entry record is missing
         #First name; last name; birthdate; passport number; home; from; reason for entry
+    #  NOT YET COMPLETE!
+    #Might be better as a function?
+    #might not need to check passport_number, since it's checked for format later on
+
+    if first_name == "":
+        return ["Reject"]
+    if last_name == "":
+        return ["Reject"]
+    if birth_date == "":
+        return ["Reject"]
+    if passport_number == "":
+        return ["Reject"]
+
 
     #Check if passport_number correctly formatted; reject if invalid format
     valid_passport_format(passport_number)
     if valid_passport_format(passport_number) == False:
         return ["Reject"]
 
-    #Check if test_applicant has visa
+    #Check if applicant has visa
     #Buggy
     if "visa" in test_applicant:
         #Test if visa_code correctly formatted; reject if invalid format
@@ -155,12 +181,7 @@ def decide(test_applicant, countries):
         return ["Accept"]
         exit
 
-
-
-
-
-
-    #Check if test_applicant has traveled via other countries
+    #Check if applicant has traveled via other countries
     if "via" in test_applicant:
         location_check(country)
         if location_check(country) == False:
@@ -339,11 +360,11 @@ def check_reason(reason, test_applicant, countries):
 
 def check_medical_advise(advisory, advisory2, advisory3):
     """
-    Checks whether the ?????
-    :param advisory: Variable to indicate whether there is a medical advisory in applicant's home country
-    :param advisory2
-    :param advisory3
-    :return: Boolean; False if advisories; otherwise, True
+    Checks whether there are medical advisories in
+    :param advisory: a string to indicate whether there is a medical advisory in applicant's home country
+    :param advisory2: a string to indicate whether there is a medical advisory in country applicant traveled from
+    :param advisory3: a string to indicate whether there is a medical advisory in country applicant traveled via
+    :return: Boolean; False if any advisories exist; otherwise, True.
     """
 
     #The instructions say "if the travler is coming from or traveling through a country with a medical advisory
