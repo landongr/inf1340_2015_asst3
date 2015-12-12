@@ -15,25 +15,6 @@ import datetime
 import json
 
 
-######################
-## global constants ##
-######################
-REQUIRED_FIELDS = ["passport", "first_name", "last_name",
-                   "birth_date", "home", "entry_reason", "from"]
-
-######################
-## global variables ##
-######################
-'''
-countries:
-dictionary mapping country codes (lowercase strings) to dictionaries
-containing the following keys:
-"code","name","visitor_visa_required",
-"transit_visa_required","medical_advisory"
-'''
-COUNTRIES = None
-
-
 def decide(test_applicant, countries):
     """
     Decides whether a traveller's entry into Kanadia should be accepted, rejected, or if they should be quarantined.
@@ -159,8 +140,8 @@ def decide(test_applicant, countries):
     fields = (first_name, last_name, birth_date, country1, home_city, home_region, country2, from_region, from_city,
               reason)
 
-    if item in fields == "":
-        return ["Reject"]
+#    if entry in fields == "":
+#        return ["Reject"]
 
     #Check if passport_number included and correctly formatted; reject if blank or invalid format
     valid_passport_format(passport_number)
