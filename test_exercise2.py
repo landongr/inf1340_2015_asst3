@@ -28,9 +28,7 @@ def test_returning():
         ["Accept", "Accept", "Quarantine"]
 
 
-def test_our_test():
-
-    assert decide("JSONtest2.json", "countries.json") == ["Accept"]
+# Student test begin here
 
 
 def test_fraud_check():
@@ -40,7 +38,7 @@ def test_fraud_check():
     # 3) Missing entry in the city section, 4) Missing entry reason
     # 5) Extra letters and numbers in passport code, 6) Missing letters and number in passport code
 
-    assert decide("JSONtestFRAUD.json", "countries.json") == ["Reject","Accept","Reject","Reject","Reject","Reject"]
+    assert decide("JSONtestFRAUD.json", "countries.json") == ["Reject", "Accept", "Reject", "Reject", "Reject", "Reject"]
 
 
 def test_medical_check():
@@ -49,4 +47,21 @@ def test_medical_check():
     # 1) Traveler has come from a quarantined country, 2) Traveler has traveled via a quarantined country
     # 3) Kanadian traveler has come via a quarantined country, 4) Home country is a quarantined country
 
-    assert decide("JSONtestMEDICAL.json", "countries.json") == ["Quarantine","Quarantine","Quarantine","Accept"]
+    assert decide("JSONtestMEDICAL.json", "countries.json") == ["Quarantine", "Quarantine", "Quarantine", "Accept"]
+
+
+def test_visa_check():
+    # Test for issues with a travellers visa code
+    # 1) Traveler has their visa code missing, 2) Traveler has their visa date missing
+    # 3) Traveler has their visa code and date missing, 4) Visa code has too many letters
+    # 5) Visa code has too few letters
+
+    assert decide("JSONtest VISA.json", "countries.json") == ["Reject", "Reject", "Reject", "Reject", "Reject"]
+
+
+def test_accepted():
+    # Tests for travellers who will make it into the country
+    # 1) Is a Kanadian Traveler 2) The home country is HRJ
+    # 3) The home country is CFR and they have an up to date visa
+
+    assert decide("jsontestACCEPTABLE.json", "countries.json") == ["Accept", "Accept", "Accept"]

@@ -92,16 +92,6 @@ class UnknownAttributeException(Exception):
     pass
 
 
-def fun(table):
-    table2 = [] + table[0]
-    count = 1
-    while count < len(table) - 1:
-        if table[count] > table[-1]:
-            table2.append(table[-1])
-        count += 1
-    else:
-        print table2
-
 ##########################
 ##Real code Starts Here!##
 ##########################
@@ -122,7 +112,6 @@ def selection(t, f):
     > def f(row): row[-1] > 3
     > select(R, f)
     [["A", "B", "C"], [4, 5, 6]]
-
     """
     new_table = []
     # iterate though rows of the table
@@ -139,7 +128,6 @@ def selection(t, f):
         return new_table
 
 
-
 def projection(q, r):
 
     """
@@ -153,13 +141,11 @@ def projection(q, r):
     > R = [["A", "B", "C"], [1, 2, 3], [4, 5, 6]]
     > projection(R, ["A", "C"])
     [["A", "C"], [1, 3], [4, 6]]
-
     """
+
     t = []
     t = copy.deepcopy(q)
-
     new_list = []
-    # iterate though the headings of the schema
     for item in t[0]:
         # checks if any headings match the attributes in subset r
         if item not in r:
@@ -168,11 +154,9 @@ def projection(q, r):
             new_list.append(x)
     # iterates though the new list, these are the index points for the columns that will be removed
     for i in new_list:
-        # iterates though each list in the table
         for target in t:
             # marks any index that matches the column to be removed by changing it to the targeted string
             target[i] = "Marked_for_delete"
-    # iterates though each list in the table again
     for lists in t:
         # iterates though each list looking for targeted indexes and removes them
         for targets in range(lists.count("Marked_for_delete")):
@@ -181,7 +165,6 @@ def projection(q, r):
     for lists in t:
         if len(lists) == 0:
             raise UnknownAttributeException
-    # Returns the modified table
     else:
         return t
 
@@ -196,9 +179,8 @@ def cross_product(t1, t2):
     > R1 = [["A", "B"], [1,2], [3,4]]
     > R2 = [["C", "D"], [5,6]]
     [["A", "B", "C", "D"], [1, 2, 5, 6], [3, 4, 5, 6]]
-
-
     """
+
     # Combines and pulls the schema headings to be put on the final table
     new_table = t1[0] + t2[0]
     new2_table = []
@@ -214,15 +196,3 @@ def cross_product(t1, t2):
     new2_table.insert(0,new_table)
     return new2_table
 
-
-
-CARS = [["Make", "Color", "Year", "Works(y/n)"],
-        ["Toyota","Yellow", 1989, "y"],
-        ["Honda", "Orange", 2011, "n"],
-        ["Dodge", "Purple", 2000, "y"],
-        ["Fiat", "Polka dot", 1999, "y"]]
-
-TRUCKS = [["Make", "Color", "Year", "Works(y/n)"],
-          ["Toyota","Yellow", 1989, "y"],
-          ["Honda", "Red", 1998, "n"],
-          ["Dodge", "Purple", 2000, "y"]]

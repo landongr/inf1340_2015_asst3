@@ -172,6 +172,9 @@ def decide_one(test_applicant, countries):
         else:
             return ["Accept"]
 
+    # Checks the reason for enter
+    check_reason(reason, test_applicant, countries)
+
 #####################
 # HELPER FUNCTIONS ##
 #####################
@@ -268,15 +271,15 @@ def check_reason(reason, test_applicant, countries):
     """
 
     # Retrieve test_applicant's visa date
-    date_string = test_applicant["visa"]["date"]
-
+    date_string = ""
+    if "visa" in test_applicant:
+        date_string = test_applicant["visa"]["date"]
     if reason == "visit":
         # Retrieve test_applicant home country;
         # if does not require a visa, return True
         country = test_applicant["home"]["country"]
         if countries[country]["visitor_visa_required"] == "0":
             return True
-
         # If visa date (date_string) less than 2 years old, return True
         else:
             if is_more_than_2_years_ago(date_string) == True:
