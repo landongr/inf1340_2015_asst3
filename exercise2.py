@@ -220,7 +220,7 @@ def valid_visa_format(visa_code):
 
     """
 
-    visa_format_regex = re.compile(r"\w{5}-\w{5}")
+    visa_format_regex = re.compile(r"\w{5}-\w{5}$")
     visa_match = visa_format_regex.match(visa_code)
     if visa_match is None:
         return False
@@ -313,4 +313,4 @@ with open("JSONtest2.json","r") as json_reader:
 with open("countries.json","r") as country_reader:
     ctry = json.load(country_reader)
 
-print decide(applicant, ctry)
+#print decide(applicant, ctry)
