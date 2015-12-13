@@ -13,7 +13,7 @@ import datetime
 import json
 
 
-def main(test_applicant, countries):
+def decide(test_applicant, countries):
     results = []
     for person in test_applicant:
         decision = decide(person,countries)
@@ -26,7 +26,7 @@ def main(test_applicant, countries):
     return results
 
 
-def decide(test_applicant, countries):
+def decide_one(test_applicant, countries):
     """
     Decides whether a traveller's entry into Kanadia should be accepted, rejected, or if they should be quarantined.
 
@@ -71,10 +71,10 @@ def decide(test_applicant, countries):
     reason = test_applicant["entry_reason"]
 
     # Variable for if Country Applicant traveled from has Medical Advisory
-    # try:
-    #     countries[from_country]["medical_advisory"]
-    # except KeyError:
-    #     return ["Reject"]
+    try:
+         countries[from_country]["medical_advisory"]
+    except KeyError:
+         return ["Reject"]
     advisory2 = countries[from_country]["medical_advisory"]
 
     # Variable for Applicant passport number
