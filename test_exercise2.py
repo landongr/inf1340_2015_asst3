@@ -20,8 +20,6 @@ DIR = "test_jsons/"
 os.chdir(DIR)
 
 
-test_1 = "test_returning_citizen.json"
-test_2 = "countries.json"
 
 # def test_returning():
 #     """
@@ -30,13 +28,7 @@ test_2 = "countries.json"
 #     assert decide("test_returning_citizen.json", "countries.json") ==\
 #         ["Accept", "Accept", "Quarantine"]
 
-with open("test_returning_citizen.json", "r") as json_reader:
-    b = json_reader.read()
-    test_applicant = json.loads(b)
-with open("countries.json", "r") as country_reader:
-    b = country_reader.read()
-    countries = json.loads(b)
 
 
 def test_our_test():
-    assert decide("test_returning_citizen.json", "r" ) == ["Accept"]
+    assert decide("JSONtest2.json", "r" ) == ["Accept"]

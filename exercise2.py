@@ -22,10 +22,9 @@ def decide(test_applicant, countries):
         b = country_reader.read()
         countries = json.loads(b)
 
-
     results = []
     for person in test_applicant:
-        decision = decide_one(test_applicant,countries)
+        decision = decide_one(person, countries)
         if decision == ["Quarantine"]:
             results.append("Quarantine")
         elif decision == ["Reject"]:
@@ -318,9 +317,9 @@ def check_medical_advise(advisory2, advisory3):
     else:
         return True
 
-# with open("JSONtest2.json","r") as json_reader:
-#     applicant = json.load(json_reader)
-# with open("countries.json","r") as country_reader:
-#     ctry = json.load(country_reader)
+with open("JSONtest3.json","r") as json_reader:
+    applicant = json.load(json_reader)
+with open("countries.json","r") as country_reader:
+    ctry = json.load(country_reader)
 
-#print decide(applicant, ctry)
+print decide("JSONtest3.json", "counties.json")
