@@ -308,9 +308,9 @@ def check_medical_advise(from_advisory, via_advisory):
     else:
         return True
 
-with open("JSONtest3.json", "r") as json_reader:
+with open("test_returning_citizen.json", "r") as json_reader:
     applicant = json.load(json_reader)
 with open("countries.json", "r") as country_reader:
     ctry = json.load(country_reader)
 
-print decide("JSONtest3.json", "counties.json")
+print decide("test_returning_citizen.json", "counties.json")
