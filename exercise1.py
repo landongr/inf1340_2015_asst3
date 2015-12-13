@@ -171,12 +171,12 @@ def projection(q, r):
         # iterates though each list in the table
         for target in t:
             # marks any index that matches the column to be removed by changing it to the targeted string
-            target[i] = "Marked_for_kill"
+            target[i] = "Marked_for_delete"
     # iterates though each list in the table again
     for lists in t:
         # iterates though each list looking for targeted indexes and removes them
-        for targets in range(lists.count("Marked_for_kill")):
-            lists.remove("Marked_for_kill")
+        for targets in range(lists.count("Marked_for_delete")):
+            lists.remove("Marked_for_delete")
     # Checks to make sure the attributes in r actually return a list, and will throw an error if the list is empty
     for lists in t:
         if len(lists) == 0:
