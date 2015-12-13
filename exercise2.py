@@ -16,9 +16,11 @@ import json
 def decide(test_applicant, countries):
 
     with open(test_applicant, "r") as json_reader:
-        test_applicant = json.loads(json_reader)
-    with open(countries, 'r') as country_reader:
-        countries = json.loads(country_reader)
+        b = json_reader.read()
+        test_applicant = json.loads(b)
+    with open("countries.json", "r") as country_reader:
+        b = country_reader.read()
+        countries = json.loads(b)
 
 
     results = []
