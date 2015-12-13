@@ -188,7 +188,7 @@ def valid_passport_format(passport_number):
     :return: Boolean; True if the format is valid, False otherwise
     """
     passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}")
-    passport_match = passport_format_regex.search(passport_number)
+    passport_match = passport_format_regex.match(passport_number)
     if passport_match is None:
         return False
     else:
@@ -221,7 +221,7 @@ def valid_visa_format(visa_code):
     """
 
     visa_format_regex = re.compile(r"\w{5}-\w{5}")
-    visa_match = visa_format_regex.search(visa_code)
+    visa_match = visa_format_regex.match(visa_code)
     if visa_match is None:
         return False
     else:
@@ -236,7 +236,7 @@ def valid_date_format(date_string):
     """
 
     date_format_regex = re.compile(r"\d{4}-\d{2}-\d{2}")
-    date_match = date_format_regex.search(date_string)
+    date_match = date_format_regex.match(date_string)
     if date_match is None:
         return False
     else:

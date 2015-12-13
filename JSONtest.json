@@ -1,25 +1,18 @@
 
-   {"passport": "JMZaS-89IA9-OTCLY-MQILJ-P7CTY",
-    "first_name": "Peggy",
+ {
+    "passport": "JMZ0S-89IA9-OTCLY-MQILJ-P7CTY",
+    "first_name": "ELIZABETH",
     "last_name": "WENDT",
     "birth_date": "1958-08-22",
     "home": {
       "city": "Bala",
       "region": "ON",
-      "country": "BRD"
+      "country": "LUG"
     },
-    "entry_reason": "visit",
+    "entry_reason": "returning",
     "from": {
-      "city": "Buckettown",
+      "city": "Weasel",
       "region": "Rodent",
-      "country": "BRD"
-    },
-    "via": {
-        "country": "DSK",
-        "country name" : "Peoples Republic of Headdeskia"
-    },
-    "visa": {
-        "date" : "2015-06-02",
-        "code" : "12345-abcde"
-        }
+      "country": "LUG"
+    }
   }
