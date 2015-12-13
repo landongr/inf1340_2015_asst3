@@ -25,10 +25,9 @@ os.chdir(DIR)
 #     """
 #     Travellers are returning to KAN.
 #     """
-#     assert decide("test_returning_citizen.json", "countries.json") ==\
-#         ["Accept", "Accept", "Quarantine"]
-
-
 
 def test_our_test():
-    assert decide("JSONtest2.json", "r" ) == ["Accept"]
+    assert decide("test_returning_citizen.json", "countries") == ["Accept", "Accept", "Quarantine"]
+
+def test_our_test():
+    assert decide("JSONtest2.json", "countries" ) == ["Accept"]
