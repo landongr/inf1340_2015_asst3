@@ -8,16 +8,16 @@
     "home": {
       "city": "Bala",
       "region": "ON",
-      "country": "KAN"
+      "country": "LUG"
     },
     "entry_reason": "returning",
     "from": {
       "city": "Weasel",
       "region": "Rodent",
-      "country": "BRD"
+      "country": "LUG"
     },
     "via": {
-        "country": "DSK",
+        "country": "LUG",
         "country name" : "Peoples Republic of Headdeskia"
     },
     "visa": {

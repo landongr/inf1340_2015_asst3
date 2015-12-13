@@ -71,7 +71,11 @@ def decide(test_applicant, countries):
     reason = test_applicant["entry_reason"]
 
     # Variable for if Country Applicant traveled from has Medical Advisory
-    advisory2 = countries.get("medical_advisory", "")
+    try:
+        countries[from_country]["medical_advisory"]
+    except KeyError:
+        return ["Reject"]
+    advisory2 = countries[from_country]["medical_advisory"]
 
     # Variable for Applicant passport number
     passport_number = test_applicant["passport"]
@@ -98,7 +102,11 @@ def decide(test_applicant, countries):
         # Variable for name of via country
         via_country = test_applicant["via"]["country"]
         # Variable for if via country has Medical Advisory
-        advisory3 = countries.get("medical_advisory", "")
+        try:
+            countries[via_country]["medical_advisory"]
+        except KeyError:
+            return ["Reject"]
+        advisory3 = countries[via_country]["medical_advisory"]
 
     ####################
     ##Validity Checks###
