@@ -71,10 +71,10 @@ def decide(test_applicant, countries):
     reason = test_applicant["entry_reason"]
 
     # Variable for if Country Applicant traveled from has Medical Advisory
-    try:
-        countries[from_country]["medical_advisory"]
-    except KeyError:
-        return ["Reject"]
+    # try:
+    #     countries[from_country]["medical_advisory"]
+    # except KeyError:
+    #     return ["Reject"]
     advisory2 = countries[from_country]["medical_advisory"]
 
     # Variable for Applicant passport number
@@ -105,7 +105,7 @@ def decide(test_applicant, countries):
         try:
             countries[via_country]["medical_advisory"]
         except KeyError:
-            return ["Reject"]
+             return ["Reject"]
         advisory3 = countries[via_country]["medical_advisory"]
 
     ####################
@@ -154,9 +154,8 @@ def decide(test_applicant, countries):
         # Test if visa's date_string correctly formatted; reject if invalid format
         if valid_date_format(date_string) == False:
             return ["Reject"]
-
-    else:
-        return "Accept"
+        else:
+            return ["Accept"]
 
 #####################
 # HELPER FUNCTIONS ##
@@ -314,4 +313,4 @@ with open("JSONtest2.json","r") as json_reader:
 with open("countries.json","r") as country_reader:
     ctry = json.load(country_reader)
 
-print main(applicant, ctry)
+print decide(applicant, ctry)

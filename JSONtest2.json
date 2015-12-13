@@ -1,4 +1,3 @@
-[
   {
 
     "passport": "JMZ0S-89IA9-OTCLY-MQILJ-P7CTY",
@@ -8,16 +7,16 @@
     "home": {
       "city": "Bala",
       "region": "ON",
-      "country": "LUG"
+      "country": "DSK"
     },
     "entry_reason": "returning",
     "from": {
       "city": "Weasel",
       "region": "Rodent",
-      "country": "LUG"
+      "country": "DSK"
     },
     "via": {
-        "country": "LUG",
+        "country": "DSK",
         "country name" : "Peoples Republic of Headdeskia"
     },
     "visa": {
@@ -25,4 +24,3 @@
         "code" : "12345-abcde"
         }
   }
-]
