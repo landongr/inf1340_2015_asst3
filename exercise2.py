@@ -14,9 +14,16 @@ import json
 
 
 def decide(test_applicant, countries):
+
+    with open(test_applicant, "r") as json_reader:
+        test_applicant = json.loads(json_reader)
+    with open(countries, 'r') as country_reader:
+        countries = json.loads(country_reader)
+
+
     results = []
     for person in test_applicant:
-        decision = decide(person,countries)
+        decision = decide_one(test_applicant,countries)
         if decision == ["Quarantine"]:
             results.append("Quarantine")
         elif decision == ["Reject"]:
@@ -27,6 +34,7 @@ def decide(test_applicant, countries):
 
 
 def decide_one(test_applicant, countries):
+
     """
     Decides whether a traveller's entry into Kanadia should be accepted, rejected, or if they should be quarantined.
 
@@ -193,8 +201,6 @@ def valid_passport_format(passport_number):
         return False
     else:
         return True
-
-
 #valid_passport_format("JMZ0S-89IA9-OTCLY-MQ4LJ-P7CTY")
     #no problem with correct format
 
@@ -310,9 +316,9 @@ def check_medical_advise(advisory2, advisory3):
     else:
         return True
 
-with open("JSONtest2.json","r") as json_reader:
-    applicant = json.load(json_reader)
-with open("countries.json","r") as country_reader:
-    ctry = json.load(country_reader)
+# with open("JSONtest2.json","r") as json_reader:
+#     applicant = json.load(json_reader)
+# with open("countries.json","r") as country_reader:
+#     ctry = json.load(country_reader)
 
 #print decide(applicant, ctry)
