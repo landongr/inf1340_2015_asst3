@@ -8,6 +8,7 @@ Computer-based immigration office for Kanadia
 
 __author__ = "Graham Landon, Erin Canning, and Brady Williamson"
 
+
 import re
 import datetime
 import json
@@ -37,7 +38,8 @@ def decide(test_applicant, countries):
 def decide_one(test_applicant, countries):
 
     """
-    Decides whether a traveller's entry into Kanadia should be accepted, rejected, or if they should be quarantined.
+    Decides whether a traveller's entry into Kanadia should be
+    accepted, rejected, or if they should be quarantined.
 
     :param test_applicant
     :param countries
@@ -45,9 +47,9 @@ def decide_one(test_applicant, countries):
         "Accept", "Reject", and "Quarantine"
     """
 
-    ######################
-    ###Local Constants####
-    ######################
+######################
+###Local Constants####
+######################
 
     # Variable for Applicant's Home Country
     home_country = test_applicant["home"]["country"]
@@ -70,10 +72,12 @@ def decide_one(test_applicant, countries):
     # variable for home region (for entry record completeness check)
     home_region = test_applicant["home"]["region"]
 
-    # variable for city applicant arriving from (for entry record completeness check)
+    # variable for city applicant arriving from
+    # (for entry record completeness check)
     from_city = test_applicant["from"]["city"]
 
-    # variable for region applicant arriving from (for entry record completeness check)
+    # variable for region applicant arriving from
+    # (for entry record completeness check)
     from_region = test_applicant["from"]["region"]
 
     # Variable for Applicant's reason for entering the country
@@ -81,10 +85,10 @@ def decide_one(test_applicant, countries):
 
     # Variable for if Country Applicant traveled from has Medical Advisory
     try:
-         countries[from_country]["medical_advisory"]
+        countries[from_country]["medical_advisory"]
     except KeyError:
-         return ["Reject"]
-    advisory2 = countries[from_country]["medical_advisory"]
+        return ["Reject"]
+    from_advisory = countries[from_country]["medical_advisory"]
 
     # Variable for Applicant passport number
     passport_number = test_applicant["passport"]
@@ -101,7 +105,7 @@ def decide_one(test_applicant, countries):
         visa_code = test_applicant["visa"]["code"]
 
     # Assign empty string for via country medical advisory
-    advisory3 = ""
+    via_advisory = ""
 
     # Assign empty string for Country Applicant Traveled via
     via_country = ""
@@ -114,27 +118,28 @@ def decide_one(test_applicant, countries):
         try:
             countries[via_country]["medical_advisory"]
         except KeyError:
-             return ["Reject"]
-        advisory3 = countries[via_country]["medical_advisory"]
+            return ["Reject"]
+        via_advisory = countries[via_country]["medical_advisory"]
 
-    ####################
-    ##Validity Checks###
-    ####################
+####################
+##Validity Checks###
+####################
 
-    # Check if there are medical advisories in home country (advisory); from country (advisory2);
-    # via country (advisory3)
-    if check_medical_advise(advisory2,advisory3) == False:
+    # Check if there are medical advisories in from country (from_advisory);
+    # via country (via_advisory)
+    if check_medical_advise(from_advisory, via_advisory) == False:
         return ["Quarantine"]
 
     # Check that no required fields on the entry record are blank.
-    fields = (first_name, last_name, birth_date, home_country, home_city, home_region, from_country, from_region, from_city,
-              reason)
+    fields = (first_name, last_name, birth_date, home_country, home_city,
+              home_region, from_country, from_region, from_city, reason)
 
     for entry in fields:
         if entry == "":
             return ["Reject"]
 
-    # Check if passport_number included and correctly formatted; reject if blank or invalid format
+    # Check if passport_number included and correctly formatted;
+    # reject if blank or invalid format
     if valid_passport_format(passport_number) == False:
         return ["Reject"]
 
@@ -146,8 +151,8 @@ def decide_one(test_applicant, countries):
         location_check(via_country)
         if location_check(via_country) == False:
             return ["Reject"]
-        check_reason(reason,test_applicant, countries)
-        if check_reason(reason,test_applicant, countries) == False:
+        check_reason(reason, test_applicant, countries)
+        if check_reason(reason, test_applicant, countries) == False:
             return ["Reject"]
 
     # Test if Applicant's home is Kanadia; accept them if it is
@@ -160,7 +165,8 @@ def decide_one(test_applicant, countries):
         if valid_visa_format(visa_code) == False:
             return ["Reject"]
 
-        # Test if visa's date_string correctly formatted; reject if invalid format
+        # Test if visa's date_string correctly formatted;
+        # reject if invalid format
         if valid_date_format(date_string) == False:
             return ["Reject"]
         else:
@@ -184,15 +190,11 @@ def is_more_than_2_years_ago(date_string):
     date = datetime.datetime.strptime(date_string, '%Y-%m-%d')
     return (date - two_years_ago).total_seconds() > 0
 
-#is_more_than_2_years_ago("1986-05-08")
-    #returns False
-
-#is_more_than_2_years_ago("2015-05-08")
-    #returns True
 
 def valid_passport_format(passport_number):
     """
-    Checks whether a passport number is five groups of five alpha-numeric characters separated by dashes
+    Checks whether a passport number is five groups of five
+    alpha-numeric characters separated by dashes
     :param passport_number: alpha-numeric string
     :return: Boolean; True if the format is valid, False otherwise
     """
@@ -202,23 +204,6 @@ def valid_passport_format(passport_number):
         return False
     else:
         return True
-#valid_passport_format("JMZ0S-89IA9-OTCLY-MQ4LJ-P7CTY")
-    #no problem with correct format
-
-#valid_passport_format("jMz0s-89IA9-OTCLY-MQ4LJ-P7CTY")
-    #no problem with this correct format mix of caps/nocaps/numbers
-
-#valid_passport_format("89IA9-OTCLY-MQ4LJ-P7CTY-uuuu_")
-    #UHOH it allows underscores
-
-#valid_passport_format("7")
-    #no problem, False because it's not even close
-
-#valid_passport_format("89IA9-OTCLY-MQ4LJ-P7CTY-uuuu.")
-    #no problem, False because of period
-
-#valid_passport_format("JJJJ-OTCLY-MQ4LJ-P7CTY-uuuuu")
-    #no problem, false because of too few in first block
 
 
 def valid_visa_format(visa_code):
@@ -256,7 +241,8 @@ def location_check(check_country):
     """
     Checks whether provided home country of an applicant is valid
     :param check_country: 3-letter string representing a country.
-    :return: Boolean; True if home_country is KAN or other legitimate country key; False otherwise
+    :return: Boolean; True if home_country is KAN or other legitimate
+    country key; False otherwise
     """
 
     json_data = open("countries.json").read()
@@ -272,8 +258,9 @@ def location_check(check_country):
 
 def check_reason(reason, test_applicant, countries):
     """
-    Checks reason for test_applicant's entry to Kanadia; if it is visit, checks whether visitors from that country
-     need a visitor visa; if they do, checks whether that visa is less than two years old.
+    Checks reason for test_applicant's entry to Kanadia; if it is visit,
+    checks whether visitors from that country need a visitor visa;
+    if they do, checks whether that visa is less than two years old.
     :param reason: 3-letter string indicating home country of applicant
     :param test_applicant:
     :param countries:
@@ -284,7 +271,8 @@ def check_reason(reason, test_applicant, countries):
     date_string = test_applicant["visa"]["date"]
 
     if reason == "visit":
-        # Retrieve test_applicant home country; if does not require a visa, return True
+        # Retrieve test_applicant home country;
+        # if does not require a visa, return True
         country = test_applicant["home"]["country"]
         if countries[country]["visitor_visa_required"] == "0":
             return True
@@ -302,24 +290,26 @@ def check_reason(reason, test_applicant, countries):
         return False
 
 
-def check_medical_advise(advisory2, advisory3):
+def check_medical_advise(from_advisory, via_advisory):
     """
     Checks whether there are medical advisories in
-    :param advisory2: a string to indicate whether there is a medical advisory in country applicant traveled from
-    :param advisory3: a string to indicate whether there is a medical advisory in country applicant traveled via
+    :param from_advisory: a string to indicate whether there is a
+    medical advisory in country applicant traveled from
+    :param via_advisory: a string to indicate whether there is a
+    medical advisory in country applicant traveled via
     :return: Boolean; False if any advisories exist; otherwise, True.
     """
 
-    if advisory2 != "":
+    if from_advisory != "":
         return False
-    elif advisory3 != "":
+    elif via_advisory != "":
         return False
     else:
         return True
 
-with open("JSONtest3.json","r") as json_reader:
+with open("JSONtest3.json", "r") as json_reader:
     applicant = json.load(json_reader)
-with open("countries.json","r") as country_reader:
+with open("countries.json", "r") as country_reader:
     ctry = json.load(country_reader)
 
 print decide("JSONtest3.json", "counties.json")
