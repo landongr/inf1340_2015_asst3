@@ -13,6 +13,19 @@ import datetime
 import json
 
 
+def main(test_applicant, countries):
+    results = []
+    for person in test_applicant:
+        decision = decide(person,countries)
+        if decision == ["Quarantine"]:
+            results.append("Quarantine")
+        elif decision == ["Reject"]:
+            results.append("Reject")
+        elif decision == ["Accept"]:
+            results.append("Accept")
+    return results
+
+
 def decide(test_applicant, countries):
     """
     Decides whether a traveller's entry into Kanadia should be accepted, rejected, or if they should be quarantined.
@@ -143,8 +156,7 @@ def decide(test_applicant, countries):
 # HELPER FUNCTIONS ##
 #####################
 
-#### SHOULD WE RENAME THIS?  It's confusing that a function that is called is_more_than_2_years_ago returns True
-#### if it is LESS than 2 years old
+
 def is_more_than_2_years_ago(date_string):
     """
     Check if date is less than two years ago.
@@ -170,19 +182,11 @@ def valid_passport_format(passport_number):
     :param passport_number: alpha-numeric string
     :return: Boolean; True if the format is valid, False otherwise
     """
-    #Brady tested it and it seems to work just fine
-    #EXCEPT it allows passports with underscores.  do we have to consider the chance of underscores?
     passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}")
     passport_match = passport_format_regex.search(passport_number)
     if passport_match is None:
-        #take out print statement after testing
-        #print False
         return False
-    #Brady added the "true" option for testing and to match the reqs of the docstring return line.
-    #we may be able to delete the else statement and fix the docstring at the end
     else:
-         #take out print statement after testing
-        #print True
         return True
 #valid_passport_format("JMZ0S-89IA9-OTCLY-MQ4LJ-P7CTY")
     #no problem with correct format
@@ -237,7 +241,7 @@ def valid_date_format(date_string):
 def location_check(check_country):
     """
     Checks whether provided home country of an applicant is valid
-    :param country: 3-letter string representing a country.
+    :param check_country: 3-letter string representing a country.
     :return: Boolean; True if home_country is KAN or other legitimate country key; False otherwise
     """
 
@@ -299,13 +303,9 @@ def check_medical_advise(advisory2, advisory3):
     else:
         return True
 
-with open("JSONtest.json","r") as json_reader:
+with open("JSONtest2.json","r") as json_reader:
     applicant = json.load(json_reader)
 with open("countries.json","r") as country_reader:
     ctry = json.load(country_reader)
 
-#app = json.loads("JSONtest.json")
-#cry = json.loads("countries.json")
-    #should this be ctry instead of cry?
-
-print decide(applicant, ctry)
+print main(applicant, ctry)

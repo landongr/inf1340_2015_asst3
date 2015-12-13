@@ -1,5 +1,5 @@
 
-  {"passport": "JMZaS-89IA9-OTCLY-MQILJ-P7CTY",
+   {"passport": "JMZaS-89IA9-OTCLY-MQILJ-P7CTY",
     "first_name": "Peggy",
     "last_name": "WENDT",
     "birth_date": "1958-08-22",
@@ -20,7 +20,6 @@
     },
     "visa": {
         "date" : "2015-06-02",
-        "code" : "123s42dd45-jdddb423cde"
-    }
+        "code" : "12345-abcde"
+        }
   }
-
