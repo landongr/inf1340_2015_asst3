@@ -132,8 +132,6 @@ def decide(test_applicant, countries):
         check_reason(reason,test_applicant, countries)
         if check_reason(reason,test_applicant, countries) == False:
             return ["Reject"]
-        else:
-            return ["Reject"]
 
     # Test if Applicant's home is Kanadia; accept them if it is
     if home_country == "KAN":
