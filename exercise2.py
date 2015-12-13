@@ -187,12 +187,14 @@ def valid_passport_format(passport_number):
     :param passport_number: alpha-numeric string
     :return: Boolean; True if the format is valid, False otherwise
     """
-    passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}")
+    passport_format_regex = re.compile(r"(\w{5}-){4}\w{5}$")
     passport_match = passport_format_regex.match(passport_number)
     if passport_match is None:
         return False
     else:
         return True
+
+
 #valid_passport_format("JMZ0S-89IA9-OTCLY-MQ4LJ-P7CTY")
     #no problem with correct format
 
