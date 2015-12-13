@@ -290,7 +290,6 @@ def check_reason(reason, test_applicant, countries):
     elif reason == "returning":
         return True
 
-
 def check_medical_advise(from_advisory, via_advisory):
     """
     Checks whether there are medical advisories in
@@ -308,9 +307,9 @@ def check_medical_advise(from_advisory, via_advisory):
     else:
         return True
 
-with open("test_returning_citizen.json", "r") as json_reader:
-    applicant = json.load(json_reader)
-with open("countries.json", "r") as country_reader:
-    ctry = json.load(country_reader)
+# with open("JSONtest3.json", "r") as json_reader:
+#     applicant = json.load(json_reader)
+# with open("countries.json", "r") as country_reader:
+#     ctry = json.load(country_reader)
 
-print decide("test_returning_citizen.json", "counties.json")
+#print decide("JSONtest3.json", "counties.json")
