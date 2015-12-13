@@ -88,7 +88,7 @@
       "region": "ON",
       "country": "DSK"
     },
-    "entry_reason": "returning",
+    "entry_reason": "visit",
     "from": {
       "city": "Weasel",
       "region": "Rodent",
@@ -100,7 +100,7 @@
     },
     "visa": {
         "date" : "2015-06-02",
-        "code" : "12345-SNORT555"
+        "code" : "12345-SNORT4"
         }
   },
   {

@@ -289,8 +289,6 @@ def check_reason(reason, test_applicant, countries):
     # If reason for entry is returning, return True
     elif reason == "returning":
         return True
-    else:
-        return False
 
 
 def check_medical_advise(from_advisory, via_advisory):
